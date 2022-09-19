@@ -1,0 +1,29 @@
+.loader-spinner{
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  img{
+    width: 100px;
+    height: auto;
+    animation: loadingAnim 3.5s ease-out infinite;
+  }
+  @keyframes loadingAnim {
+    0% {
+      transform: translateX(-200px);
+    }
+    50% {
+      transform: translateX(200px);
+    }
+    100% {
+      transform: translateX(-200px);
+    }
+  }
+}

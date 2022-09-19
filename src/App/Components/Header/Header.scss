@@ -1,0 +1,32 @@
+.header{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 40px;
+  background: #fcdc84;
+  min-height: 90px;
+  > a{
+    font-size: 0;
+  }
+  nav{
+    ul{
+       list-style: none;
+       display: flex;
+       align-items: center;
+       li{
+         margin: 0 10px;
+         padding: 4px;
+         color: black;
+         a{
+           font-size: 16px;
+           &:hover{
+             color: #9d4646;
+           }
+           &.active{
+             color: #ff0051;
+           }
+         }
+       }
+     }
+  }
+}

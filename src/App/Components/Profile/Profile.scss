@@ -1,0 +1,43 @@
+.profile{
+  text-align: center;
+  &__info{
+    margin: 0 auto;
+    &__list{
+      ul{
+        max-width: 500px;
+        width: 100%;
+        margin: 0 auto;
+        li{
+          margin-bottom: 20px;
+        }
+      }
+    }
+    &__photo{
+      position: relative;
+      max-width: 300px;
+      margin: 0 auto 20px;
+      .img-wrapper{
+        width: 300px;
+        height: 300px;
+        border-radius: 50%;
+        border: 12px solid lightcoral;
+        display: block;
+        overflow: hidden;
+      }
+      img{
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        &.no-img{
+          filter: blur(4px);
+        }
+      }
+      .edit-profile{
+        position: absolute;
+        top: 20px;
+        right: 20px;
+      }
+    }
+  }
+
+}
