@@ -72,7 +72,9 @@ const AuthForm = (props) => {
                 <div className='actions'>
                     {(loading && !success) ?
                         <h3>Loading...</h3> :
-                        <button className="px-button-primary">{signInSession ? 'Login' : 'Create Account'}</button>
+                        <button className="px-button-primary">
+                            <span>{signInSession ? 'Login' : 'Create Account'}</span>
+                        </button>
                     }
                     <button
                         type='button'

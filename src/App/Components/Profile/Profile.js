@@ -123,7 +123,7 @@ const Profile = (props) => {
                             type='submit'
                             className='px-button-primary'
                         >
-                            Save
+                            <span>Save</span>
                         </button>
                     </fieldset>
                 </form>
@@ -134,14 +134,13 @@ const Profile = (props) => {
     const renderChangePasswordAppModal = () => {
         return (
             <AppModal
-                title="Edit Profile"
+                title="Change password"
                 closeHandler={setShowChangePassModal}>
                 <div>
-                    <h3>Change password</h3>
                     <form onSubmit={submitHandler}>
                         <fieldset>
                             <div className='control'>
-                                <label htmlFor='newPassword'>Your Password</label>
+                                <label htmlFor='newPassword'>New Password</label>
                                 <input placeholder="New password" minLength={7} className="px-input" type='password'
                                        id='newPassword' ref={newPasswordInputRef} required/>
                             </div>
@@ -149,7 +148,7 @@ const Profile = (props) => {
                                 type='submit'
                                 className='px-button-primary'
                             >
-                                Change password
+                                <span>Change password</span>
                             </button>
                         </fieldset>
                     </form>
@@ -177,7 +176,7 @@ const Profile = (props) => {
                                 className="px-button-link edit-profile"
                                 onClick={toggleAppModal}
                             >
-                                <span>Edit Profile</span>
+                                <i className="fa-solid fa-pencil"/>
                             </button>
                         </li>
                         <li><h1>{userInfo?.displayName}</h1></li>

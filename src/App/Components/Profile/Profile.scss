@@ -1,3 +1,5 @@
+@import "../../../assets/styles/variables";
+
 .profile{
   text-align: center;
   &__info{
@@ -34,8 +36,14 @@
       }
       .edit-profile{
         position: absolute;
-        top: 20px;
-        right: 20px;
+        top: 14px;
+        right: 35px;
+        font-size: 16px;
+        width: 44px;
+        height: 44px;
+        border: 5px solid lightcoral;
+        border-radius: 50%;
+        background: white;
       }
     }
   }

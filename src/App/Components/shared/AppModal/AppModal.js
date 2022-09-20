@@ -7,7 +7,9 @@ export const AppModal = (props) => {
         <div className="px-modal px-modal--overlay">
             <div className="px-modal__content">
                 <h2 className="px-modal__content__title">{title}</h2>
-                <span onClick={() => closeHandler()} className="close-modal">close</span>
+                <span onClick={() => closeHandler()} className="close-modal">
+                    <i className="fa-solid fa-xmark"/>
+                </span>
                 <div>
                     {children}
                 </div>

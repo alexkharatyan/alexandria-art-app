@@ -1,3 +1,4 @@
+@import "../../../../assets/styles/variables";
 .px-modal{
   display: flex;
   align-items: center;
@@ -13,25 +14,32 @@
     z-index: 10;
   }
   &__content{
-    padding: 36px;
+    padding: 20px 36px 36px;
     background: white;
     border-radius: 20px;
-    max-width: 700px;
+    max-width: 460px;
     width: 100%;
     min-height: 200px;
     position: relative;
     &__title{
-      font-size: 30px;
+      font-size: 20px;
       text-align: center;
+      margin-bottom: 30px;
+    }
+    .control{
+      margin-bottom: 20px;
+    }
+    button{
+      margin: 0 auto;
+      min-width: 140px;
     }
   }
   .close-modal{
     display: inline-block;
     position: absolute;
-    top: 20px;
+    top: 16px;
     right: 20px;
-    width: 20px;
-    height: 20px;
-    background: lightcoral;
+    font-size: 24px;
+    cursor: pointer;
   }
 }

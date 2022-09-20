@@ -37,14 +37,19 @@ const Header = () => {
                     <li>
                         <NavLink activeClassName="active" to="/profile">Profile</NavLink>
                     </li>
+                    <li>
+                        <NavLink activeClassName="active" className="px-shop" to="/shop">
+                            <i className="fa-solid fa-cart-shopping"/>
+                        </NavLink>
+                    </li>
                     {idToken ? (
                         <li>
-                            <button onClick={logoutHandler} className="px-button-primary">Logout</button>
+                            <button onClick={logoutHandler} className="px-button-primary"><span>Logout</span></button>
                         </li>
                     ) : (
                         <>
-                            <li className="px-button-primary">
-                                <NavLink activeClassName="active" to="/sign-in">Sign In</NavLink>
+                            <li>
+                                <NavLink activeClassName="active" className="px-button-primary" to="/sign-in"><span>Sign In</span></NavLink>
                             </li>
                             <li>
                                 <NavLink activeClassName="active" to="/sign-up">Sign Up</NavLink>

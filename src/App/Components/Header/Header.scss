@@ -1,3 +1,4 @@
+@import "../../../assets/styles/variables";
 .header{
   display: flex;
   align-items: center;
@@ -17,14 +18,20 @@
          margin: 0 10px;
          padding: 4px;
          color: black;
-         a{
+         a:not(.px-button-primary){
            font-size: 16px;
            &:hover{
              color: #9d4646;
            }
            &.active{
-             color: #ff0051;
+             color: $px-red;
            }
+         }
+         a.px-button-primary.active{
+           box-shadow: 2px 3px 7px 0 #e91e6359;
+         }
+         a.px-shop{
+           font-size: 20px;
          }
        }
      }

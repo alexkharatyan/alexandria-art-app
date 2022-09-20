@@ -16,7 +16,6 @@ export const AuthWrapper = (props) => {
         // in login page if user token exists in local storage, do auth request
         console.log('loggedIn');
         if (!userInfo) {
-            // debugger;
             dispatch(getAccountInfo({
                 idToken: idToken,
             }));
