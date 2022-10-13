@@ -1,0 +1,82 @@
+@import "../../../../src/assets/styles/variables";
+.gallery-item{
+   &--shop-view{
+     width: 100%;
+     display: flex;
+     align-items: stretch;
+
+     padding: 12px;
+     position: relative;
+     //color: #0388cb;
+     //color: #64b0a6;
+     //color: #e39f4b;
+     //color: #1441c1;
+     //color: #8877fe;
+     //background: linear-gradient(128deg, #46a1ae, #87a9cd 30%, #838bf5 46%, #ec96c4 85%, #ffb398);
+     background: rgba(#8877fe, .5);
+     border-radius: 20px;
+     margin-bottom: 20px;
+
+     .gallery-item__image{
+       width: 180px;
+       padding-bottom: 19%;
+     }
+     .gallery-item__caption{
+       padding:0 20px;
+       width: 100%;
+       text-align: left;
+       .pos-actions{
+         position: absolute;
+         top: 20px;
+         right: 20px;
+         .fa-heart{
+           font-size: 24px;
+           color: white;
+           cursor: pointer;
+           transition: opacity .2s ease-out;
+           &:hover{
+             opacity: .8;
+           }
+         }
+       }
+       .name{
+         font-size: 32px;
+         margin: 20px 0;
+         + .description{
+           font-family: $bandit;
+         }
+       }
+     }
+   }
+}
+
+.shop{
+  &__list{
+    max-width: 100%;
+    margin: 0 auto;
+    .px-col{
+      padding: 0;
+      .name{
+        font-size: 22px;
+        margin: 0;
+      }
+      .description{
+        font-size: 16px;
+        + p{
+          font-size: 14px;
+          opacity: .8;
+        }
+      }
+    }
+    @media screen and (min-width: 1024px){
+      max-width: 70%;
+      .px-col{
+        padding: 0 12px;
+        .name{
+          font-size: 32px;
+          margin: 20px 0;
+        }
+      }
+    }
+  }
+}

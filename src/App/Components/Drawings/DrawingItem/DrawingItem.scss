@@ -1,3 +1,4 @@
+@import "../../../../assets/styles/variables";
 .gallery-item{
   text-align: center;
   margin: 0 0 60px;
@@ -26,9 +27,54 @@
       }
     }
   }
-  &__name h2{
-    font-size: 14px;
-    margin-top: 10px;
+  &__image{
+    position: relative;
+    .actions{
+      position: absolute;
+      top: 0;
+      right: 0;
+      z-index: 1;
+      //opacity: 0;
+      //pointer-events: none;
+      transition: opacity .3s ease-out;
+      i{
+        //color: rgba(white, .6);
+        //font-size: 16px;
+        //margin: 4px;
+        //border: 2px solid rgba($px-purple, .6);
+        //padding: 2px 8px;
+        //border-radius: 4px;
+        //background: rgba(#000, .1);
+        opacity: .6;
+        cursor: pointer;
+        transition:opacity .3s ease-out;
+        &:hover{
+          opacity: 1;
+        }
+        &[class*='fa-']{
+          font-size: 24px;
+          margin: 6px;
+          color: white;
+        }
+        &.fa-solid{
+         color: $px-purple;
+          opacity: 1;
+       }
+      }
+    }
+    &:hover .actions{
+      opacity: 1;
+      pointer-events: auto;
+    }
+  }
+  &__caption{
+    .name{
+      font-size: 14px;
+      margin-top: 10px;
+    }
+    &__info{
+
+    }
   }
   &__description{
     position: absolute;

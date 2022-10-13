@@ -2,8 +2,9 @@ import React from "react";
 import {
     NavLink,
 } from "react-router-dom";
-import Logo from '../../../assets/images/pixar.png';
+import {favoritesTotalQuantity} from '../../shared/selectors';
 import {useDispatch, useSelector} from 'react-redux';
+import Logo from '../../../assets/images/pixar.png';
 import {authActions} from '../../Store/authSlice';
 import {useHistory} from 'react-router';
 import './Header.scss';
@@ -14,6 +15,7 @@ const Header = () => {
     );
     const dispatch = useDispatch();
     const history = useHistory();
+    const favoritesItemsCount = useSelector(favoritesTotalQuantity);
 
     const logoutHandler = () => {
         dispatch(authActions.logout());
@@ -42,6 +44,7 @@ const Header = () => {
                             <li>
                                 <NavLink activeClassName="active" className="px-shop" to="/shop">
                                     <i className="fa-solid fa-cart-shopping"/>
+                                    {favoritesItemsCount > 0 ? <sup>{favoritesItemsCount}</sup> : null}
                                 </NavLink>
                             </li>
                             <li>

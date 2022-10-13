@@ -14,7 +14,7 @@ const PageNotFound = () => {
     return (
         <section className='px-container not-found'>
             <img width={300} src={notFoundImg} alt="Page Not Found"/>
-            <h1 className="text-center">Page Not Found</h1>
+            <h1 className="text-center text-colored">Page Not Found</h1>
         </section>
     );
 };

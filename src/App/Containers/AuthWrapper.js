@@ -20,10 +20,10 @@ export const AuthWrapper = (props) => {
                 idToken: idToken,
             }));
         }
-        if(userInfo) {
-            console.log('router to profile');
-            history.replace("/profile");
-        }
+        // if(userInfo && idToken) {
+        //     console.log('router to profile');
+        //     history.replace("/profile");
+        // }
     }, [dispatch, history, idToken, userInfo]);
 
     useEffect(() => {

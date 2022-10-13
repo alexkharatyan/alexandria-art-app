@@ -11,8 +11,8 @@ const SignUp = () => {
     console.log('userInfo', userInfo);
 
     return (
-        <section className='px-container'>
-            <h1 className="text-center">Sign Up</h1>
+        <section className='px-container text-center'>
+            <h1 className="text-center text-colored mb-40">Sign Up</h1>
             <AuthForm
                 loading={signInLoading}
                 success={signInSuccess}

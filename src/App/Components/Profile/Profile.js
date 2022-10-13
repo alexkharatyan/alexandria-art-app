@@ -1,14 +1,14 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {SkeletonLoading} from '../shared/SkeletonLoading/SkeletonLoading';
+import {SkeletonLoading} from '../../Store/shared/SkeletonLoading/SkeletonLoading';
 import profPhoto from '../../../assets/images/px-lamp.webp';
 import {resetPassword} from '../../Store/auth-actions';
 import {useDispatch, useSelector} from 'react-redux';
-import {AppModal} from '../shared/AppModal/AppModal';
+import {AppModal} from '../../Store/shared/AppModal/AppModal';
 import {getAccountInfo} from './account-actions';
 import toast from 'react-hot-toast';
 import '../Auth/AuthForm.scss';
-import cx from 'classnames';
 import './Profile.scss';
+import cx from 'classnames';
 
 const Profile = (props) => {
     const dispatch = useDispatch();
@@ -43,7 +43,7 @@ const Profile = (props) => {
     const toggleAppModal = () => {
         setToggleModal(!toggleModal);
     };
-
+    console.log(propPicture);
     const toggleChangePassModal = () => {
         setShowChangePassModal(!showChangePassModal);
     };
@@ -58,8 +58,6 @@ const Profile = (props) => {
         reader.readAsDataURL(baseFile);
 
     }
-
-    console.log('userInfo', userInfo);
 
     const editAccountHandler = (e) => {
         e.preventDefault();
@@ -186,6 +184,7 @@ const Profile = (props) => {
                                 className="px-button-link"
                                 onClick={toggleChangePassModal}
                             >
+                                <i className="fa-solid fa-pen-to-square"/>
                                 <span>Change Password</span>
                             </button>
                         </li>
