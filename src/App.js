@@ -1,20 +1,17 @@
-import React, {Suspense, useEffect} from "react";
-import {BrowserRouter as Router, Route, Switch, useHistory} from "react-router-dom";
+import React, {Suspense} from "react";
+import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import LoadingSpinner from './App/Components/LoadingSpinner/LoadingSpinner';
 import {AuthWrapper} from './App/Containers/AuthWrapper';
-import {useDispatch, useSelector} from 'react-redux';
 import Header from "./App/Components/Header/Header";
 import Footer from "./App/Components/Footer/Footer";
-import {authActions} from './App/Store/authSlice';
 import {Toaster} from 'react-hot-toast';
+import {useSelector} from 'react-redux';
 import './App.scss';
 
 const App = () => {
     const {userInfo, idToken} = useSelector(
         (state) => state.auth,
     );
-    const history = useHistory();
-    const dispatch = useDispatch();
 
     const DrawingItemInner = React.lazy(() => import('./App/Components/Drawings/DrawingItemInner/DrawingItemInner'));
     const PageNotFound = React.lazy(() => import('./App/Components/PageNotFound/PageNotFound'));
@@ -25,6 +22,7 @@ const App = () => {
     const SignUp = React.lazy(() => import('./App/Components/Auth/SignUp'));
     const About = React.lazy(() => import('./App/Components/About/About'));
     const Drawings = React.lazy(() => import('./App/Components/Drawings'));
+    const Shop = React.lazy(() => import('./App/Components/Shop/Shop'));
 
     return (
         <>
@@ -65,6 +63,9 @@ const App = () => {
                             <AuthWrapper>
                                 <Route exact path="/profile">
                                     <Profile/>
+                                </Route>
+                                <Route exact path="/shop">
+                                    <Shop/>
                                 </Route>
                             </AuthWrapper>
                             {/*)}*/}

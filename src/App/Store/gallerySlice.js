@@ -2,8 +2,9 @@ import {createSlice} from '@reduxjs/toolkit';
 import {fetchGalleryList} from '../Store/gallery-actions';
 
 const initialAuthState = {
-    galleryItems: null,
+    galleryItems: [],
     galleryArrayList: [],
+    favoritesList: {},
     loading: false,
     success: false,
     error: false
@@ -30,6 +31,8 @@ const gallerySlice = createSlice({
             state.success = false;
             state.error = true;
         },
+
+
     }
 });
 

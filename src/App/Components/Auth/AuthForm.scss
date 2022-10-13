@@ -3,7 +3,7 @@
   max-width: 500px;
   text-align: center;
   margin: 0 auto 50px;
-
+  background: linear-gradient(128deg, #46a1ae, #87a9cd 30%, #838bf5 46%, #ec96c4 85%, #ffb398);
   .actions{
     text-align: center;
   }
@@ -43,5 +43,4 @@ fieldset{
   border: 1px solid white;
   width: 100%;
   text-align: left;
-  padding: 0.25rem;
 }

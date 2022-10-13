@@ -6,7 +6,7 @@ const About = () => {
         <section className="px-container">
             <div className="wrapper">
                 <div className="lines css-houdini" />
-                <h1 className="text-center">about !!!!!!!!!</h1>
+                <h1 className="text-center text-colored">about !!!!!!!!!</h1>
             </div>
         </section>
     )
