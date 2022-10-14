@@ -1,14 +1,18 @@
 import React, {useEffect, useRef, useState} from 'react';
+import UploadGalleryItemForm from '../../Components/Drawings/UploadGalleryItemForm/UploadGalleryItemForm';
+import {ReorderGalleryList} from '../Drawings/ReorderGalleryList/ReorderGalleryList';
 import {SkeletonLoading} from '../../Store/shared/SkeletonLoading/SkeletonLoading';
+import {addGalleryList, fetchGalleryList} from '../../Store/gallery-actions';
+import {AppModal} from '../../Store/shared/AppModal/AppModal';
 import profPhoto from '../../../assets/images/px-lamp.webp';
 import {resetPassword} from '../../Store/auth-actions';
 import {useDispatch, useSelector} from 'react-redux';
-import {AppModal} from '../../Store/shared/AppModal/AppModal';
+import {usePrevious} from '../../hooks/usePrevious';
 import {getAccountInfo} from './account-actions';
 import toast from 'react-hot-toast';
 import '../Auth/AuthForm.scss';
-import './Profile.scss';
 import cx from 'classnames';
+import './Profile.scss';
 
 const Profile = (props) => {
     const dispatch = useDispatch();
@@ -17,17 +21,30 @@ const Profile = (props) => {
     const newPhotoRef = useRef(null);
     const [toggleModal, setToggleModal] = useState(false);
     const [showChangePassModal, setShowChangePassModal] = useState(false);
+    const [showItemReorderingModal, setShowItemReorderingModal] = useState(false);
+    const [isAddModalOpen, setIsAddModalOpenState] = useState(false);
     const [baseUrl, setBaseUrl] = useState('');
     const {userInfo, idToken, userLoading, userSuccess} = useSelector(
         (state) => state.auth,
     );
+    const prevUserSuccess = usePrevious(userSuccess);
+    const {addedSuccess} = useSelector(state => state.gallery);
+    const prevAddedSuccess = usePrevious(addedSuccess);
 
     useEffect(() => {
-        if (userSuccess) {
+        if (!prevUserSuccess && userSuccess) {
             toast.success('Successfully updated!');
             setToggleModal(false);
         }
-    }, [userSuccess, dispatch]);
+    }, [userSuccess, prevUserSuccess, dispatch]);
+
+    useEffect(() => {
+        if(!prevAddedSuccess && addedSuccess) {
+            dispatch(fetchGalleryList());
+            toast.success('Successfully saved!');
+            closeAddItemModal();
+        }
+    }, [addedSuccess, prevAddedSuccess]);
 
     const submitHandler = (e) => {
         e.preventDefault();
@@ -43,10 +60,14 @@ const Profile = (props) => {
     const toggleAppModal = () => {
         setToggleModal(!toggleModal);
     };
-    console.log(propPicture);
+
     const toggleChangePassModal = () => {
         setShowChangePassModal(!showChangePassModal);
     };
+
+    const toggleItemUploadingModal = () => {
+        setIsAddModalOpenState(true);
+    }
 
     const uploadImage = (file) => {
         const baseFile = file;
@@ -58,6 +79,17 @@ const Profile = (props) => {
         reader.readAsDataURL(baseFile);
 
     }
+
+    const submitAddingHandler = (formValues) => {
+        dispatch(addGalleryList({
+            name: formValues.name,
+            isFavorite: false,
+            price: formValues.price,
+            image: formValues.image,
+            category: formValues.category,
+            description: formValues.description
+        }))
+    };
 
     const editAccountHandler = (e) => {
         e.preventDefault();
@@ -129,6 +161,22 @@ const Profile = (props) => {
         );
     };
 
+    const toggleItemReorderingModal = () => {
+        setShowItemReorderingModal(!showItemReorderingModal);
+    };
+
+    const renderItemsReorderingModal = () => {
+        return (
+            <AppModal
+                title="Change password"
+                closeHandler={setShowChangePassModal}>
+                {/*<ReorderGalleryList*/}
+                {/*    reorderingItems={galleryItems}*/}
+                {/*/>*/}
+            </AppModal>
+        );
+    };
+
     const renderChangePasswordAppModal = () => {
         return (
             <AppModal
@@ -153,6 +201,10 @@ const Profile = (props) => {
                 </div>
             </AppModal>
         )
+    };
+
+    const closeAddItemModal = () => {
+        setIsAddModalOpenState(false);
     };
 
     return (
@@ -188,11 +240,41 @@ const Profile = (props) => {
                                 <span>Change Password</span>
                             </button>
                         </li>
+                        <li>
+                            <button
+                                className="px-button-link"
+                                onClick={toggleItemUploadingModal}
+                            >
+                                <i className="fa-solid fa-pen-to-square"/>
+                                <span>Add Gallery Item</span>
+                            </button>
+                        </li>
+                        <li>
+                            <button
+                                className="px-button-link"
+                                onClick={toggleItemReorderingModal}
+                            >
+                                <i className="fa-solid fa-pen-to-square"/>
+                                <span>Reorder Gallery Item</span>
+                            </button>
+                        </li>
                     </ul>
                 ) : <SkeletonLoading type={'PROFILE'} />}
             </aside>
+            <AppModal
+                open={isAddModalOpen}
+                title="Add Gallery Item"
+                closeHandler={closeAddItemModal}
+            >
+                <UploadGalleryItemForm
+                    closeModal={closeAddItemModal}
+                    submitHandler={submitAddingHandler}
+                />
+            </AppModal>
+            {/*{showItemUploadingModal && renderItemUploadingModal()}*/}
             {toggleModal && renderEdtAccountModal()}
             {showChangePassModal && renderChangePasswordAppModal()}
+            {showItemReorderingModal && renderItemsReorderingModal()}
         </section>
     );
 };

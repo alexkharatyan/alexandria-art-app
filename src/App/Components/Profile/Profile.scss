@@ -2,6 +2,9 @@
 
 .profile{
   text-align: center;
+  h2{
+    font-family: $bandit;
+  }
   &__info{
     margin: 0 auto;
     &__list{

@@ -1,5 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit';
-import {updateGalleryList} from '../Store/gallery-actions';
+import {updateGalleryFavoritesList} from '../Store/gallery-actions';
 
 const initialCartState = {
     items: [],
@@ -59,17 +59,17 @@ const cartSlice = createSlice({
         }
     },
     extraReducers: {
-        [updateGalleryList.pending]: (state) => {
+        [updateGalleryFavoritesList.pending]: (state) => {
             state.favoriteLoading = true;
             state.favoriteError = null;
             state.favoriteSuccess = false;
         },
-        [updateGalleryList.fulfilled]: (state, { payload }) => {
+        [updateGalleryFavoritesList.fulfilled]: (state, { payload }) => {
             state.favoriteLoading = false;
             state.favoriteSuccess = true;
             state.selectedItems = payload;
         },
-        [updateGalleryList.rejected]: (state, { payload }) => {
+        [updateGalleryFavoritesList.rejected]: (state, { payload }) => {
             state.favoriteLoading = false;
             state.favoriteError = true;
             state.favoriteSuccess = false;

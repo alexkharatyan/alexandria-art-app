@@ -1,12 +1,10 @@
-import React, {useState} from 'react';
+import React from 'react';
 import DrawingItem from "../DrawingItem/DrawingItem";
-import {useSelector} from 'react-redux';
 import './GalleryList.scss';
 // import FsLightbox from 'fslightbox-react';
 
 const GalleryList = (props) => {
-    const {drawingData, loading} = props;
-    // const {selectedItems} = useSelector(state => state.cart);
+    const {drawingData, loading, setSelectedCard, setSelectedCardId, isEditModalOpen, closeModalHandler, closedModal} = props;
     // const [toggler, setToggler] = useState(false);
 
     return (
@@ -25,6 +23,11 @@ const GalleryList = (props) => {
                     {/*    ]}*/}
                     {/*/>*/}
                     <DrawingItem
+                        setSelectedCard={setSelectedCard}
+                        setSelectedCardId={setSelectedCardId}
+                        isEditModalOpen={isEditModalOpen}
+                        closeModalHandler={closeModalHandler}
+                        closedModal={closedModal}
                         loading={loading}
                         index={index}
                         key={item.id}

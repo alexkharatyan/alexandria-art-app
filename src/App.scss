@@ -144,7 +144,10 @@ h1, h2, h3, h4, h5, h6, p, span, a {
     transition: all 200ms;
   }
 }
-
+fieldset{
+  border: none;
+  text-align: left;
+}
 .px-button-link {
   text-align: center;
   font-size: 14px;
