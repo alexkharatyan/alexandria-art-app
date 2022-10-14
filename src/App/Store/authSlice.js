@@ -123,6 +123,7 @@ const authSlice = createSlice({
 
         // get account info
         [getUserInfo.pending]: (state) => {
+            state.userSuccess = false;
             state.userLoading = true;
             state.userError = null;
         },

@@ -44,7 +44,7 @@ const Header = () => {
                             <li>
                                 <NavLink activeClassName="active" className="px-shop" to="/shop">
                                     <i className="fa-solid fa-cart-shopping"/>
-                                    {favoritesItemsCount > 0 ? <sup>{favoritesItemsCount}</sup> : null}
+                                    {favoritesItemsCount && (favoritesItemsCount > 0) ? <sup>{favoritesItemsCount}</sup> : null}
                                 </NavLink>
                             </li>
                             <li>
