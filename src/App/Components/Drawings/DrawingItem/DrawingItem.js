@@ -1,22 +1,20 @@
 import React from 'react';
 import {SkeletonLoading} from '../../../Store/shared/SkeletonLoading/SkeletonLoading';
-import {updateGalleryFavoritesList} from '../../../Store/gallery-actions';
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 import ReactTooltip from 'react-tooltip';
+import {DELETE, EDIT, FAVORITE} from '../constants';
 import cx from 'classnames';
 import './DrawingItem.scss';
 
 const DrawingItem = (props) => {
-    const {item, loading, className = "", shopView = false, setSelectedCard, setSelectedCardId} = props;
+    const {
+        item,
+        loading,
+        className = "",
+        shopView = false,
+        setSelectedCard
+    } = props;
     const {idToken} = useSelector((state) => state.auth);
-    const dispatch = useDispatch();
-
-    const favoriteItemHandler = () => {
-        dispatch(updateGalleryFavoritesList({
-            key: item.key,
-            isFavorite: !item.isFavorite
-        }));
-    };
 
     return (
         <>
@@ -29,18 +27,20 @@ const DrawingItem = (props) => {
                         <div className="actions">
                             {!shopView && idToken ? (
                                 <>
-                                    <i onClick={() => setSelectedCardId({...item})}
-                                        // data-tip="remove"
+                                    <i onClick={() => setSelectedCard({values: {...item}, type: DELETE})}
+                                        data-tip="Remove"
                                        className="fa-solid fa-trash"/>
-                                    <i onClick={() => setSelectedCard({...item})}
-                                        // data-tip="Edit"
+                                    <i onClick={() => setSelectedCard({values: {...item}, type: EDIT})}
+                                        data-tip="Edit"
                                        className="fa-solid fa-pencil"/>
-                                    <i onClick={favoriteItemHandler}
+                                    <i onClick={() => setSelectedCard({values: {...item}, type: FAVORITE})}
+                                       data-tip={!item.isFavorite ? 'Like' : 'Unlike'}
                                        className={cx('fa-regular fa-heart',
                                            {
                                                'fa-solid': item.isFavorite
                                            })}
                                     />
+                                    <ReactTooltip/>
                                 </>
                             ) : null}
                         </div>
@@ -58,7 +58,7 @@ const DrawingItem = (props) => {
                                     <div className="pos-actions">
                                         {/*<i className="fa-solid fa-plus" />*/}
                                         {/*<i className="fa-solid fa-minus"/>*/}
-                                        <i onClick={favoriteItemHandler}
+                                        <i onClick={() => setSelectedCard({values: {...item}, type: FAVORITE})}
                                            data-tip="Unselect"
                                            className="fa-solid fa-heart"/>
                                         <ReactTooltip/>

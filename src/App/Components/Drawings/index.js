@@ -1,12 +1,13 @@
 import React, {useEffect, useState} from 'react';
 // import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
-import {deleteGalleryItem, editGalleryItem, fetchGalleryList} from '../../Store/gallery-actions';
+import {deleteGalleryItem, editGalleryItem, fetchGalleryList, updateGalleryFavoritesList} from '../../Store/gallery-actions';
 import {DeleteGalleryItemModal} from '../Drawings/DeleteGalleryItemModal/DeleteGalleryItemModal';
 import UploadGalleryItemForm from '../Drawings/UploadGalleryItemForm/UploadGalleryItemForm';
 import {AppModal} from '../../Store/shared/AppModal/AppModal';
 import {useDispatch, useSelector} from 'react-redux';
 import {usePrevious} from '../../hooks/usePrevious';
 import GalleryList from './GalleryList/GalleryList';
+import {DELETE, EDIT, FAVORITE} from '../Drawings/constants';
 import toast from 'react-hot-toast';
 import './Drawings.scss';
 
@@ -17,31 +18,38 @@ const Drawings = (props) => {
     const [isEditModalOpen, setEditModalOpenState] = useState(false);
     const [isDeleteModalOpen, setDeleteModalOpenState] = useState(false);
     const [itemName, setItemName] = useState('');
-    const [selectedCard, setSelectedCard] = useState(null);
-    const [selectedCardId, setSelectedCardId] = useState(null);
-    const prevUpdateSuccess = usePrevious(favoriteSuccess);
+
+    const [selectedCard, setSelectedCard] = useState({values: null, type: ''});
+
+    const prevFavoriteSuccess = usePrevious(favoriteSuccess);
     const prevDeletedSuccess = usePrevious(deletedSuccess);
     const prevEditedSuccess = usePrevious(editedSuccess);
+
     const prevSelectedCard = usePrevious(selectedCard);
-    const prevSelectedCardId = usePrevious(selectedCardId);
 
     useEffect(() => {
-        if(!prevSelectedCard && selectedCard) {
+        if(!prevSelectedCard?.values && selectedCard?.values && selectedCard?.type === EDIT) {
             setEditModalOpenState(!isEditModalOpen);
         }
     }, [selectedCard, prevSelectedCard]);
 
      useEffect(() => {
-        if(!prevSelectedCardId && selectedCardId) {
+        if(!prevSelectedCard?.values && selectedCard?.values && selectedCard?.type === DELETE) {
             setDeleteModalOpenState(!isDeleteModalOpen);
         }
-     }, [selectedCardId, prevSelectedCardId]);
+     }, [selectedCard, prevSelectedCard]);
 
     useEffect(() => {
-        if(galleryItems.length === 0 || (!prevUpdateSuccess && favoriteSuccess)) {
+        if(galleryItems.length === 0 || (!prevFavoriteSuccess && favoriteSuccess) ) {
             dispatch(fetchGalleryList());
         }
-    }, [dispatch, galleryItems, favoriteSuccess, prevUpdateSuccess]);
+    }, [dispatch, galleryItems, favoriteSuccess, prevFavoriteSuccess]);
+
+    useEffect(() => {
+        if((!prevSelectedCard?.values && selectedCard?.values && selectedCard?.type === FAVORITE)) {
+            favoriteItemHandler(selectedCard?.values);
+        }
+    }, [selectedCard, prevSelectedCard]);
 
     useEffect(() => {
         if (!prevEditedSuccess && editedSuccess) {
@@ -72,18 +80,27 @@ const Drawings = (props) => {
     };
 
     const removeFavoriteItem = () => {
-        dispatch(deleteGalleryItem({key: selectedCardId.key}));
-        setItemName(selectedCardId.name);
+        dispatch(deleteGalleryItem({key: selectedCard.values.key}));
+        setItemName(selectedCard.values.name);
     };
 
     const closeModalHandler = () => {
         setEditModalOpenState(false);
-        setSelectedCard(null);
+        setSelectedCard({values: null, type: ''});
     };
 
     const closeDeleteModalHandler = () => {
         setDeleteModalOpenState(false);
-        setSelectedCardId(null)
+        setSelectedCard({values: null, type: ''})
+    };
+
+    const favoriteItemHandler = (item) => {
+        // console.log('fav item=====', item);
+        debugger;
+        dispatch(updateGalleryFavoritesList({
+            key: item.key,
+            isFavorite: !item.isFavorite
+        }));
     };
 
     return (
@@ -94,7 +111,8 @@ const Drawings = (props) => {
                     loading={loading}
                     drawingData={galleryItems}
                     setSelectedCard={setSelectedCard}
-                    setSelectedCardId={setSelectedCardId}
+                    selectedCard={selectedCard}
+                    // favoriteItemHandler={favoriteItemHandler}
                 />
             </div>
             <AppModal
@@ -103,7 +121,7 @@ const Drawings = (props) => {
                 closeHandler={closeModalHandler}
             >
                 <UploadGalleryItemForm
-                    currentItem={selectedCard}
+                    currentItem={selectedCard.values}
                     closeHandler={closeModalHandler}
                     submitHandler={editItemHandler}
                 />
@@ -114,7 +132,7 @@ const Drawings = (props) => {
                 closeHandler={closeDeleteModalHandler}
             >
                <DeleteGalleryItemModal
-                   currentItemId={selectedCardId}
+                   currentItemId={selectedCard.values}
                    closeModalHandler={closeDeleteModalHandler}
                    removeFavoriteItem={removeFavoriteItem}
                />
