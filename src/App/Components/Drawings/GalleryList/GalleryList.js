@@ -4,7 +4,15 @@ import './GalleryList.scss';
 // import FsLightbox from 'fslightbox-react';
 
 const GalleryList = (props) => {
-    const {drawingData, loading, setSelectedCard, setSelectedCardId, isEditModalOpen, closeModalHandler, closedModal} = props;
+    const {
+        loading,
+        closedModal,
+        drawingData,
+        isEditModalOpen,
+        setSelectedCard,
+        closeModalHandler,
+        favoriteItemHandler
+    } = props;
     // const [toggler, setToggler] = useState(false);
 
     return (
@@ -23,10 +31,10 @@ const GalleryList = (props) => {
                     {/*    ]}*/}
                     {/*/>*/}
                     <DrawingItem
-                        setSelectedCard={setSelectedCard}
-                        setSelectedCardId={setSelectedCardId}
-                        isEditModalOpen={isEditModalOpen}
+                        favoriteItemHandler={favoriteItemHandler}
                         closeModalHandler={closeModalHandler}
+                        setSelectedCard={setSelectedCard}
+                        isEditModalOpen={isEditModalOpen}
                         closedModal={closedModal}
                         loading={loading}
                         index={index}

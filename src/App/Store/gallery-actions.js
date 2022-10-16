@@ -2,13 +2,12 @@ import {createAsyncThunk} from '@reduxjs/toolkit';
 
 // ADAPTERS //
 const adaptedGalleryList = (adaptedData) => {
-    const dataValues = Object.values(adaptedData);
+    let arr = [];
     for (const [key, value] of Object.entries(adaptedData)) {
-        for(const item of dataValues) {
-            item.key = `${key}`;
-        }
+        const item = {...value, key: key};
+        arr.push(item);
     }
-    return dataValues;
+    return arr;
 }
 
 export const fetchGalleryList = createAsyncThunk(
@@ -21,6 +20,7 @@ export const fetchGalleryList = createAsyncThunk(
             let data = await response.json();
             if (response.status === 200) {
                 const newData = adaptedGalleryList(data);
+                // debugger;
                 console.log('get data', newData);
                 return newData;
             } else {
@@ -74,6 +74,7 @@ export const addGalleryList = createAsyncThunk(
 export const updateGalleryFavoritesList = createAsyncThunk(
     'gallery/updateGallery',
     async ({key, isFavorite}, thunkAPI) => {
+        // debugger;
         try {
             const response = await fetch(
                 `https://alex-react-project-default-rtdb.firebaseio.com/galleryItems/${key}.json`,
