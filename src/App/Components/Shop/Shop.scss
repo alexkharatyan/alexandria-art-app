@@ -19,7 +19,10 @@
 
      .gallery-item__image{
        width: 180px;
-       padding-bottom: 19%;
+       padding-bottom: 32%;
+       @media screen and (min-width: 600px){
+         padding-bottom: 19%;
+       }
      }
      .gallery-item__caption{
        padding:0 20px;

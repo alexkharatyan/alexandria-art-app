@@ -49,7 +49,9 @@ const DrawingItem = (props) => {
                                 <img width="200" height="300" src={item.image} alt={item.name}/>
                                 {!shopView ? <p className="gallery-item__description">{item.description}</p> : null}
                             </>
-                        ) : <SkeletonLoading type={'LINE'}/>}
+                        ) :
+                            null
+                        }
                     </div>
                     <figcaption className="gallery-item__caption">
                         <div className="gallery-item__caption__info">
