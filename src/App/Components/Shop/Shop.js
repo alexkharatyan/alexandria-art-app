@@ -1,7 +1,8 @@
 import React, {useEffect} from 'react';
-import {favoritesList} from '../../shared/selectors';
+import {SkeletonLoading} from '../../Store/shared/SkeletonLoading/SkeletonLoading';
 import DrawingItem from '../Drawings/DrawingItem/DrawingItem';
 import {fetchGalleryList} from '../../Store/gallery-actions';
+import {favoritesList} from '../../shared/selectors';
 import {useDispatch, useSelector} from 'react-redux';
 import {usePrevious} from '../../hooks/usePrevious';
 import './Shop.scss';
@@ -14,7 +15,7 @@ const Shop = (props) => {
     const prevLoading = usePrevious(loading);
 
     useEffect(() => {
-        if(!prevLoading && !loading) {
+        if (!prevLoading && !loading) {
             dispatch(fetchGalleryList());
         }
     }, [selectedItems, loading, success]);
@@ -22,9 +23,9 @@ const Shop = (props) => {
     return (
         <section className="px-container shop text-center">
             <h1 className="text-center text-colored mb-40">Favorites</h1>
-            {favoriteItems ? (
-                <ul className="shop__list">
-                    {favoriteItems.map(item => (
+            <ul className="shop__list">
+                {!loading ? (
+                    favoriteItems.map(item => (
                         <li>
                             <DrawingItem
                                 loading={loading}
@@ -34,13 +35,15 @@ const Shop = (props) => {
                                 item={item}
                             />
                         </li>
-                    ))}
-                </ul>
-            ) : (
-                <div>
-                    <h2 className="text-center">No favorite items</h2>
-                </div>
-            )}
+                    ))
+                ) : !loading && !favoriteItems ? (
+                    <div>
+                        <h2 className="text-center">No favorite items</h2>
+                    </div>
+                ) : (
+                    <SkeletonLoading styles={{height: '157px'}} type={'LINE'}/>
+                )}
+            </ul>
         </section>
     )
 };

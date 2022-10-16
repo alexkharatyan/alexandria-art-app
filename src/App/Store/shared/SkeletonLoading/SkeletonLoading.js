@@ -2,10 +2,11 @@ import React from 'react';
 import './SkeletonLoading.scss';
 
 const PROFILE = 'PROFILE';
+const CARD = 'CARD';
 const LINE = 'LINE';
 
 export const SkeletonLoading = (props) => {
-    const {dimensions = {}, type} = props;
+    const {styles = {}, className = '', type = ''} = props;
 
     const renderSkeletonLoading = () => {
         switch (type) {
@@ -17,15 +18,30 @@ export const SkeletonLoading = (props) => {
                         <div className="skeleton--profile__line loading line-loading" />
                     </div>
                 );
-            case LINE :
+            case CARD :
                 return (
                     <div
-                        className="skeleton skeleton--list loading"
-                        style={{
-                            width: dimensions.width,
-                            height: dimensions.height,
-                        }}
-                    />
+                        className={`skeleton skeleton--list ${className}`}
+                        style={styles}
+                    >
+                        {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((item) => (
+                            <div className=" px-col">
+                                <div className="gallery-item loading">
+                                    <div className="gallery-item__image"/>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                );
+            case LINE :
+                return (
+                    <>
+                        {[1,2,3,4,5,6].map((item) => (
+                            <div className="skeleton px-col px-col-1">
+                                <div className="loading " style={styles} />
+                            </div>
+                        ))}
+                    </>
                 );
             default: return
         }

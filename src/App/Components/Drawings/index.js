@@ -4,10 +4,10 @@ import {deleteGalleryItem, editGalleryItem, fetchGalleryList, updateGalleryFavor
 import {DeleteGalleryItemModal} from '../Drawings/DeleteGalleryItemModal/DeleteGalleryItemModal';
 import UploadGalleryItemForm from '../Drawings/UploadGalleryItemForm/UploadGalleryItemForm';
 import {AppModal} from '../../Store/shared/AppModal/AppModal';
+import {DELETE, EDIT, FAVORITE} from '../Drawings/constants';
 import {useDispatch, useSelector} from 'react-redux';
 import {usePrevious} from '../../hooks/usePrevious';
 import GalleryList from './GalleryList/GalleryList';
-import {DELETE, EDIT, FAVORITE} from '../Drawings/constants';
 import toast from 'react-hot-toast';
 import './Drawings.scss';
 
@@ -96,7 +96,6 @@ const Drawings = (props) => {
 
     const favoriteItemHandler = (item) => {
         // console.log('fav item=====', item);
-        debugger;
         dispatch(updateGalleryFavoritesList({
             key: item.key,
             isFavorite: !item.isFavorite
