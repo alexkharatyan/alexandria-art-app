@@ -50,7 +50,7 @@ const GalleryList = (props) => {
                         )
                     })
                 ) : (
-                    <SkeletonLoading type={'LINE'}/>
+                    <SkeletonLoading type={'CARD'}/>
                 )}
             </>
         </>
