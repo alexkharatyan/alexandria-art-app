@@ -24,18 +24,18 @@ const Header = () => {
 
     return (
         <header className="header">
-            <NavLink to="/"><img height="36" width="155" src={Logo} alt="PIXAR"/></NavLink>
+            <NavLink to="/drawings"><img height="36" width="155" src={Logo} alt="PIXAR"/></NavLink>
             <nav>
                 <ul>
-                    <li>
-                        <NavLink activeClassName="active" to="/about">About</NavLink>
-                    </li>
+                    {/*<li>*/}
+                    {/*    <NavLink activeClassName="active" to="/about">About</NavLink>*/}
+                    {/*</li>*/}
                     <li>
                         <NavLink activeClassName="active" to="/drawings">Gallery</NavLink>
                     </li>
-                    <li>
-                        <NavLink activeClassName="active" to="/inspired-by">Inspired By</NavLink>
-                    </li>
+                    {/*<li>*/}
+                    {/*    <NavLink activeClassName="active" to="/inspired-by">Inspired By</NavLink>*/}
+                    {/*</li>*/}
                     <li>
                         <NavLink activeClassName="active" to="/profile">Profile</NavLink>
                     </li>

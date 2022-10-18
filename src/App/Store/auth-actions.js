@@ -22,7 +22,7 @@ export const signupUser = createAsyncThunk(
             );
 
             let data = await response.json();
-            console.log("data", data);
+            // console.log("data", data);
             if (response.status === 200) {
                 // store user's token in local storage
                 localStorage.setItem('idToken', data.idToken);
@@ -59,7 +59,7 @@ export const signInUser = createAsyncThunk(
                 }
             );
             let data = await response.json();
-            console.log("data", data);
+            // console.log("data", data);
             if (response.status === 200) {
                 localStorage.setItem("idToken", data.idToken);
                 toast.success('Successfully signed in');
@@ -95,7 +95,7 @@ export const resetPassword = createAsyncThunk(
                 }
             );
             let data = await response.json();
-            console.log("data", data);
+            // console.log("data", data);
             if (response.status === 200) {
                 // return { ...data, password: password};
                 toast.success('Successfully updated');
@@ -128,7 +128,7 @@ export const getUserInfo = createAsyncThunk(
                 }
             );
             let data = await response.json();
-            console.log("data", data);
+            // console.log("data", data);
             if (response.status === 200) {
                 return { ...data, photoUrl: data.photoUrl, displayName: data.displayName };
             } else {

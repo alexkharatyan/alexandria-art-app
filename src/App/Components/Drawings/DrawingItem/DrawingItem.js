@@ -27,12 +27,12 @@ const DrawingItem = (props) => {
                         <div className="actions">
                             {!shopView && idToken ? (
                                 <>
-                                    <i onClick={() => setSelectedCard({values: {...item}, type: DELETE})}
-                                        data-tip="Remove"
-                                       className="fa-solid fa-trash"/>
-                                    <i onClick={() => setSelectedCard({values: {...item}, type: EDIT})}
-                                        data-tip="Edit"
-                                       className="fa-solid fa-pencil"/>
+                                    {/*<i onClick={() => setSelectedCard({values: {...item}, type: DELETE})}*/}
+                                    {/*    data-tip="Remove"*/}
+                                    {/*   className="fa-solid fa-trash"/>*/}
+                                    {/*<i onClick={() => setSelectedCard({values: {...item}, type: EDIT})}*/}
+                                    {/*    data-tip="Edit"*/}
+                                    {/*   className="fa-solid fa-pencil"/>*/}
                                     <i onClick={() => setSelectedCard({values: {...item}, type: FAVORITE})}
                                        data-tip={!item.isFavorite ? 'Like' : 'Unlike'}
                                        className={cx('fa-regular fa-heart',

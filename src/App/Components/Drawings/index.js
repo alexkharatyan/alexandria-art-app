@@ -5,20 +5,28 @@ import {DeleteGalleryItemModal} from '../Drawings/DeleteGalleryItemModal/DeleteG
 import UploadGalleryItemForm from '../Drawings/UploadGalleryItemForm/UploadGalleryItemForm';
 import {AppModal} from '../../Store/shared/AppModal/AppModal';
 import {DELETE, EDIT, FAVORITE} from '../Drawings/constants';
+import {getAccountInfo} from '../Profile/account-actions';
 import {useDispatch, useSelector} from 'react-redux';
 import {usePrevious} from '../../hooks/usePrevious';
 import GalleryList from './GalleryList/GalleryList';
 import toast from 'react-hot-toast';
 import './Drawings.scss';
+import {useHistory} from 'react-router-dom';
 
 const Drawings = (props) => {
     const dispatch = useDispatch();
     const {galleryItems, loading, editedSuccess, deletedSuccess} = useSelector(state => state.gallery);
+    const {signInLoading, signInSuccess, signInError, userInfo, idToken} = useSelector(
+        (state) => state.auth,
+    );
     const {favoriteSuccess} = useSelector(state => state.cart);
     const [isEditModalOpen, setEditModalOpenState] = useState(false);
     const [isDeleteModalOpen, setDeleteModalOpenState] = useState(false);
     const [itemName, setItemName] = useState('');
-
+    const prevUser = usePrevious(userInfo);
+    const prevSignInLoading = usePrevious(signInLoading);
+    const prevSignInSuccess = usePrevious(signInSuccess);
+    const history = useHistory();
     const [selectedCard, setSelectedCard] = useState({values: null, type: ''});
 
     const prevFavoriteSuccess = usePrevious(favoriteSuccess);
@@ -67,6 +75,21 @@ const Drawings = (props) => {
             closeDeleteModalHandler();
         }
     }, [deletedSuccess, prevDeletedSuccess]);
+
+    // useEffect(() => {
+    //     if(!prevSignInSuccess && signInSuccess) {
+    //
+    //     }
+    // }, [dispatch, history, userInfo, signInLoading, signInSuccess, prevSignInLoading, prevSignInSuccess]);
+
+    // useEffect(() => {
+    //     if (!userInfo) {
+    //         dispatch(getAccountInfo({
+    //             idToken: idToken,
+    //         }));
+    //     }
+    // }, [dispatch, userInfo, prevSignInLoading, signInSuccess, history]);
+    // console.log('-====user', userInfo, idToken);
 
     const editItemHandler = (formValues) => {
         dispatch(editGalleryItem({
