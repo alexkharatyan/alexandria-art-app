@@ -7,8 +7,8 @@ const SignIn = () => {
         (state) => state.auth,
     );
 
-    console.log('idToken', idToken);
-    console.log('userInfo', userInfo);
+    // console.log('idToken', idToken);
+    // console.log('userInfo', userInfo);
 
     return (
         <section className="px-container text-center">

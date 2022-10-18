@@ -13,14 +13,14 @@ const App = () => {
         (state) => state.auth,
     );
 
-    const DrawingItemInner = React.lazy(() => import('./App/Components/Drawings/DrawingItemInner/DrawingItemInner'));
+    // const DrawingItemInner = React.lazy(() => import('./App/Components/Drawings/DrawingItemInner/DrawingItemInner'));
     const PageNotFound = React.lazy(() => import('./App/Components/PageNotFound/PageNotFound'));
-    const InspiredBy = React.lazy(() => import('./App/Components/InspiredBy/InspiredBy'));
-    const HomePage = React.lazy(() => import('./App/Components/HomePage/HomePage'));
+    // const InspiredBy = React.lazy(() => import('./App/Components/InspiredBy/InspiredBy'));
+    // const HomePage = React.lazy(() => import('./App/Components/HomePage/HomePage'));
     const Profile = React.lazy(() => import('./App/Components/Profile/Profile'));
     const SignIn = React.lazy(() => import('./App/Components/Auth/SignIn'));
     const SignUp = React.lazy(() => import('./App/Components/Auth/SignUp'));
-    const About = React.lazy(() => import('./App/Components/About/About'));
+    // const About = React.lazy(() => import('./App/Components/About/About'));
     const Drawings = React.lazy(() => import('./App/Components/Drawings'));
     const Shop = React.lazy(() => import('./App/Components/Shop/Shop'));
 
@@ -31,21 +31,21 @@ const App = () => {
                     <Router>
                         <Header/>
                         <Switch>
-                            <Route exact path="/">
-                                <HomePage/>
-                            </Route>
-                            <Route exact path="/about">
-                                <About/>
-                            </Route>
+                            {/*<Route exact path="/">*/}
+                            {/*    <HomePage/>*/}
+                            {/*</Route>*/}
+                            {/*<Route exact path="/about">*/}
+                            {/*    <About/>*/}
+                            {/*</Route>*/}
                             <Route exact path="/drawings">
                                 <Drawings/>
                             </Route>
-                            <Route exact path="/drawing-inner">
-                                <DrawingItemInner/>
-                            </Route>
-                            <Route exact path="/inspired-by">
-                                <InspiredBy/>
-                            </Route>
+                            {/*<Route exact path="/drawing-inner">*/}
+                            {/*    <DrawingItemInner/>*/}
+                            {/*</Route>*/}
+                            {/*<Route exact path="/inspired-by">*/}
+                            {/*    <InspiredBy/>*/}
+                            {/*</Route>*/}
                             {!idToken && (
                                 <>
                                     <Route exact path="/sign-in">

@@ -240,24 +240,24 @@ const Profile = (props) => {
                                 <span>Change Password</span>
                             </button>
                         </li>
-                        <li>
-                            <button
-                                className="px-button-link"
-                                onClick={toggleItemUploadingModal}
-                            >
-                                <i className="fa-solid fa-pen-to-square"/>
-                                <span>Add Gallery Item</span>
-                            </button>
-                        </li>
-                        <li>
-                            <button
-                                className="px-button-link"
-                                onClick={toggleItemReorderingModal}
-                            >
-                                <i className="fa-solid fa-pen-to-square"/>
-                                <span>Reorder Gallery Item</span>
-                            </button>
-                        </li>
+                        {/*<li>*/}
+                        {/*    <button*/}
+                        {/*        className="px-button-link"*/}
+                        {/*        onClick={toggleItemUploadingModal}*/}
+                        {/*    >*/}
+                        {/*        <i className="fa-solid fa-pen-to-square"/>*/}
+                        {/*        <span>Add Gallery Item</span>*/}
+                        {/*    </button>*/}
+                        {/*</li>*/}
+                        {/*<li>*/}
+                        {/*    <button*/}
+                        {/*        className="px-button-link"*/}
+                        {/*        onClick={toggleItemReorderingModal}*/}
+                        {/*    >*/}
+                        {/*        <i className="fa-solid fa-pen-to-square"/>*/}
+                        {/*        <span>Reorder Gallery Item</span>*/}
+                        {/*    </button>*/}
+                        {/*</li>*/}
                     </ul>
                 ) : <SkeletonLoading type={'PROFILE'} />}
             </aside>

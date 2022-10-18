@@ -21,7 +21,7 @@ export const fetchGalleryList = createAsyncThunk(
             if (response.status === 200) {
                 const newData = adaptedGalleryList(data);
                 // debugger;
-                console.log('get data', newData);
+                // console.log('get data', newData);
                 return newData;
             } else {
                 return data;
@@ -129,7 +129,7 @@ export const editGalleryItem = createAsyncThunk(
                 }
             );
             let data = await response.json();
-            console.log(data);
+            // console.log(data);
             if (response.status === 200) {
                 return {...data, key: key, name, price: price, image: image, category: category, description: description, isFavorite: isFavorite};
             } else {

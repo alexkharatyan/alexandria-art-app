@@ -68,7 +68,7 @@ const gallerySlice = createSlice({
         [editGalleryItem.fulfilled]: (state, {payload}) => {
             state.editedLoading = false;
             state.editedSuccess = true;
-            console.log('editing payload', payload);
+            // console.log('editing payload', payload);
             // state.galleryItems = payload;
         },
         [editGalleryItem.rejected]: (state) => {
