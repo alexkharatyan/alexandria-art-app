@@ -42,6 +42,7 @@ const Drawings = (props) => {
     useEffect(() => {
         if(galleryItems.length === 0 || (!prevFavoriteSuccess && favoriteSuccess) ) {
             dispatch(fetchGalleryList());
+            setSelectedCard({values: null, type: ''});
         }
     }, [dispatch, galleryItems, favoriteSuccess, prevFavoriteSuccess]);
 
