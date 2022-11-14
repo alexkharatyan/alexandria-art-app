@@ -15,7 +15,7 @@ const GALLERY_DATA_NEEDED_ROUTES = [
 
 export const AuthWrapper = (props) => {
     const {Component} = props;
-    const {userInfo, idToken, signInSuccess, isAdmin} = useSelector(
+    const {userInfo, idToken, signInSuccess, signUpSuccess} = useSelector(
         (state) => state.auth,
     );
     const location = useLocation();
@@ -23,6 +23,7 @@ export const AuthWrapper = (props) => {
     const dispatch = useDispatch();
 
     const prevSignInSuccess = usePrevious(signInSuccess);
+    const prevSignUpSuccess = usePrevious(signUpSuccess);
 
     //TODO: USE SUCCESS AND LOADING STATES
     useEffect(() => {
@@ -35,7 +36,8 @@ export const AuthWrapper = (props) => {
     }, [userInfo, dispatch]);
 
     useEffect(() => {
-        if(!isEmpty(userInfo) && !prevSignInSuccess && signInSuccess) {
+        if(!isEmpty(userInfo) && ((!prevSignInSuccess && signInSuccess) || (!prevSignUpSuccess && signUpSuccess))) {
+            debugger;
             history.replace("/drawings");
             dispatch(getAccountInfo({
                 idToken: idToken,
