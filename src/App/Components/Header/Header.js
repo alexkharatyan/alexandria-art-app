@@ -6,7 +6,6 @@ import {useDispatch, useSelector} from 'react-redux';
 import Logo from '../../../assets/images/pixar.png';
 import {authActions} from '../../Store/authSlice';
 import {getUserFavoritesData} from '../../Store/gallery-actions';
-import {galleryActions} from '../../Store/gallerySlice';
 import {usePrevious} from '../../hooks/usePrevious';
 import {useHistory} from 'react-router';
 import './Header.scss';
@@ -31,7 +30,6 @@ const Header = () => {
 
     const logoutHandler = () => {
         dispatch(authActions.logout());
-        dispatch(galleryActions.resetUserFavoriteList());
         history.push("/sign-in");
     };
 

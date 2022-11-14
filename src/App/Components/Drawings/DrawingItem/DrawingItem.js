@@ -19,7 +19,6 @@ const DrawingItem = (props) => {
     const {userInfo, isAdmin} = useSelector((state) => state.auth);
 
     const isFavoriteItem = favoriteItems?.find(favItem => favItem?.key === item?.key) ? true : false;
-
     return (
         <>
             <div className={cx('px-col', className)}>

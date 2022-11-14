@@ -19,7 +19,6 @@ const GalleryFetchDataWrapper = (props) => {
 
     useEffect(() => {
         if(galleryItems.length === 0 && !prevGalleryListLoading && !galleryListLoading) {
-            // debugger;
             dispatch(fetchGalleryList());
         }
     });

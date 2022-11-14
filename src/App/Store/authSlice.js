@@ -150,6 +150,7 @@ const authSlice = createSlice({
             state.getAccountInfoLoading = false;
             state.getAccountInfoSuccess = true;
             state.userInfo = payload;
+            state.isAdmin = payload.isAdmin
         },
         [getAccountInfo.rejected]: (state, { payload }) => {
             state.getAccountInfoSuccess = false;

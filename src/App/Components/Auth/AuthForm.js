@@ -10,7 +10,7 @@ const AuthForm = (props) => {
     } = props;
     // const { register, handleSubmit } = useForm();
     const emailInputRef = useRef(null);
-    const fNameInputRef = useRef(null);
+    // const fNameInputRef = useRef(null);
     const passwordInputRef = useRef(null);
     const { loading, success, error } = useSelector(
         (state) => state.auth,
@@ -31,7 +31,7 @@ const AuthForm = (props) => {
 
         const enteredEmail = emailInputRef.current.value;
         const enteredPassword = passwordInputRef.current.value;
-        const enteredFName = fNameInputRef.current.value;
+        // const enteredFName = fNameInputRef.current.value;
 
         //TODO: add validation
 
@@ -39,13 +39,13 @@ const AuthForm = (props) => {
             dispatch(signInUser({
                 email: enteredEmail,
                 password: enteredPassword,
-                displayName: enteredFName,
+                // displayName: enteredFName,
             }));
         } else {
             dispatch(signupUser({
                 email: enteredEmail,
                 password: enteredPassword,
-                displayName: enteredFName,
+                // displayName: enteredFName,
             }));
         }
         //[API_KEY] is my firebase user web API key = AIzaSyC8MgaNDTIsyoaELRhpLs2XvY9dQkVQ1lA (taken from general settings)
@@ -55,10 +55,10 @@ const AuthForm = (props) => {
         <div className=' session-box counter-box'>
             <form onSubmit={submitHandler}>
                 <fieldset>
-                    <div className='control'>
-                        <label htmlFor='fName'>Your display name</label>
-                        <input className="px-input" type='text' id='fName' ref={fNameInputRef} required/>
-                    </div>
+                    {/*<div className='control'>*/}
+                    {/*    <label htmlFor='fName'>Your display name</label>*/}
+                    {/*    <input className="px-input" type='text' id='fName' ref={fNameInputRef} required/>*/}
+                    {/*</div>*/}
                     <div className='control'>
                         <label htmlFor='email'>Your Email</label>
                         <input className="px-input" type='email' id='email' ref={emailInputRef} required/>
