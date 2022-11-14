@@ -9,18 +9,19 @@ const GalleryList = (props) => {
         loading,
         closedModal,
         drawingData,
+        favoriteItems,
         isEditModalOpen,
         setSelectedCard,
+        hasAllGalleryData,
         closeModalHandler,
         favoriteItemHandler
     } = props;
     // const [toggler, setToggler] = useState(false);
 
-    // loading &&  console.log('loading', loading);
     return (
         <>
             <>
-                {!loading ? (
+                {!loading && hasAllGalleryData ? (
                     drawingData.map((item, index) => {
                         return (
                             <>
@@ -40,6 +41,7 @@ const GalleryList = (props) => {
                                     closeModalHandler={closeModalHandler}
                                     setSelectedCard={setSelectedCard}
                                     isEditModalOpen={isEditModalOpen}
+                                    favoriteItems={favoriteItems}
                                     closedModal={closedModal}
                                     loading={loading}
                                     index={index}

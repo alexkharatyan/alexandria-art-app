@@ -1,12 +1,19 @@
 import {createSlice} from '@reduxjs/toolkit';
-import {addGalleryList, deleteGalleryItem, editGalleryItem, fetchGalleryList} from '../Store/gallery-actions';
+import {
+    addGalleryList,
+    editGalleryItem,
+    fetchGalleryList,
+    deleteGalleryItem,
+    getUserFavoritesData,
+    addUserFavoritesData, deleteUserFavoritesData
+} from '../Store/gallery-actions';
 
 const initialAuthState = {
     galleryItems: [],
-    favoritesList: {},
-    loading: false,
-    success: false,
-    error: false,
+    userFavoritesList: [],
+    galleryListLoading: false,
+    galleryListSuccess: false,
+    galleryListError: false,
     addedLoading: false,
     addedSuccess: false,
     addedError: false,
@@ -16,30 +23,37 @@ const initialAuthState = {
     deletedLoading: false,
     deletedSuccess: false,
     deletedError: false,
+    getUserFavoritesLoading: false,
+    getUserFavoritesSuccess: false,
+    getUserFavoritesError: false,
+    addUserFavoritesLoading: false,
+    addUserFavoritesSuccess: false,
+    addUserFavoritesError: false,
+    deleteUserFavoritesLoading: false,
+    deleteUserFavoritesSuccess: false,
+    deleteUserFavoritesError: false,
 }
 
 const gallerySlice = createSlice({
     name: 'gallery',
     initialState: initialAuthState,
-    reducers: {
-
-    },
+    reducers: {},
     extraReducers: {
         //GET GALLERY ITEMS
         [fetchGalleryList.pending]: (state) => {
-            state.loading = true;
-            state.success = false;
-            state.error = null;
+            state.galleryListLoading = true;
+            state.galleryListSuccess = false;
+            state.galleryListError = null;
         },
         [fetchGalleryList.fulfilled]: (state, {payload}) => {
-            state.loading = false;
-            state.success = true;
+            state.galleryListLoading = false;
+            state.galleryListSuccess = true;
             state.galleryItems = payload;
         },
         [fetchGalleryList.rejected]: (state) => {
-            state.loading = false;
-            state.success = false;
-            state.error = true;
+            state.galleryListLoading = false;
+            state.galleryListSuccess = false;
+            state.galleryListError = true;
         },
 
         //ADD GALLERY ITEM
@@ -91,7 +105,59 @@ const gallerySlice = createSlice({
         [deleteGalleryItem.rejected]: (state) => {
             state.deletedLoading = false;
             state.deletedSuccess = false;
-            state.editedError = true;
+            state.deletedError = true;
+        },
+
+        // //UPDATE GALLERY ITEM
+        [getUserFavoritesData.pending]: (state) => {
+            state.getUserFavoritesLoading = true;
+            state.getUserFavoritesSuccess = false;
+            state.getUserFavoritesError = null;
+        },
+        [getUserFavoritesData.fulfilled]: (state, {payload}) => {
+            state.getUserFavoritesLoading = false;
+            state.getUserFavoritesSuccess = true;
+            state.userFavoritesList = payload || [];
+        },
+        [getUserFavoritesData.rejected]: (state) => {
+            state.getUserFavoritesLoading = false;
+            state.getUserFavoritesSuccess = false;
+            state.getUserFavoritesError = true;
+        },
+
+        // //UPDATE GALLERY ITEM
+        [addUserFavoritesData.pending]: (state) => {
+            state.addUserFavoritesLoading = true;
+            state.addUserFavoritesSuccess = false;
+            state.addUserFavoritesError = null;
+        },
+        [addUserFavoritesData.fulfilled]: (state, {payload}) => {
+            state.addUserFavoritesLoading = false;
+            state.addUserFavoritesSuccess = true;
+            // NO NEED TO MODIFY HERE OR MODIFY BY PUSHING RIGHT HERE
+            // state.userFavoritesList = payload;
+        },
+        [addUserFavoritesData.rejected]: (state) => {
+            state.addUserFavoritesLoading = false;
+            state.addUserFavoritesSuccess = false;
+            state.addUserFavoritesError = true;
+        },
+
+        // //UPDATE GALLERY ITEM
+        [deleteUserFavoritesData.pending]: (state) => {
+            state.deleteUserFavoritesLoading = true;
+            state.deleteUserFavoritesSuccess = false;
+            state.deleteUserFavoritesError = null;
+        },
+        [deleteUserFavoritesData.fulfilled]: (state, {payload}) => {
+            state.deleteUserFavoritesLoading = false;
+            state.deleteUserFavoritesSuccess = true;
+            // state.userFavoritesList = payload;
+        },
+        [deleteUserFavoritesData.rejected]: (state) => {
+            state.deleteUserFavoritesLoading = false;
+            state.deleteUserFavoritesSuccess = false;
+            state.deleteUserFavoritesError = true;
         },
     }
 });

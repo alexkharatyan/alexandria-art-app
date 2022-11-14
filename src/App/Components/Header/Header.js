@@ -1,11 +1,13 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {
     NavLink,
 } from "react-router-dom";
-import {favoritesTotalQuantity} from '../../shared/selectors';
 import {useDispatch, useSelector} from 'react-redux';
 import Logo from '../../../assets/images/pixar.png';
 import {authActions} from '../../Store/authSlice';
+import {getUserFavoritesData} from '../../Store/gallery-actions';
+import {galleryActions} from '../../Store/gallerySlice';
+import {usePrevious} from '../../hooks/usePrevious';
 import {useHistory} from 'react-router';
 import './Header.scss';
 
@@ -15,10 +17,21 @@ const Header = () => {
     );
     const dispatch = useDispatch();
     const history = useHistory();
-    const favoritesItemsCount = useSelector(favoritesTotalQuantity);
+    const {addUserFavoritesLoading, updateUserFavoritesSuccess, loading, userFavoritesList} = useSelector(state => state.gallery);
+    const favoritesItemsCount = userFavoritesList?.length;
+    const prevaddUserFavoritesLoading = usePrevious(addUserFavoritesLoading);
+    const {userInfo} = useSelector(state => state.auth);
+
+    useEffect(() => {
+        if (prevaddUserFavoritesLoading && !addUserFavoritesLoading && updateUserFavoritesSuccess) {
+            dispatch(getUserFavoritesData({userId: userInfo?.localId}));
+        }
+    }, [prevaddUserFavoritesLoading, addUserFavoritesLoading, updateUserFavoritesSuccess]);
+
 
     const logoutHandler = () => {
         dispatch(authActions.logout());
+        dispatch(galleryActions.resetUserFavoriteList());
         history.push("/sign-in");
     };
 
@@ -36,11 +49,11 @@ const Header = () => {
                     {/*<li>*/}
                     {/*    <NavLink activeClassName="active" to="/inspired-by">Inspired By</NavLink>*/}
                     {/*</li>*/}
-                    <li>
-                        <NavLink activeClassName="active" to="/profile">Profile</NavLink>
-                    </li>
                     {idToken ? (
                         <>
+                            <li>
+                                <NavLink activeClassName="active" to="/profile">Profile</NavLink>
+                            </li>
                             <li>
                                 <NavLink activeClassName="active" className="px-shop" to="/shop">
                                     <i className="fa-solid fa-cart-shopping"/>

@@ -5,3 +5,57 @@ $charlesWorth: 'Charlesworth', serif;
 //COLORS
 $px-purple: #9147ff;
 $px-red: #ff0051;
+
+
+//general styles
+#generalStyles{
+  border: none;
+  border-radius: 8px;
+  padding: 8px 12px;
+}
+$primary    : rgb(25, 118, 210);
+$secondary  : rgb(156, 39, 176);
+$error      : rgb(211, 47, 47);
+$info       :  rgb(2, 136, 209);
+$warning    : rgb(46, 125, 50);
+$success    : rgb(237, 108, 2);
+
+// Color Variations Array
+$color-list: (
+        'primary' $primary,
+        'secondary' $secondary,
+        'error' $error,
+        'info' $info,
+        'warning' $warning,
+        'success' $success,
+);
+
+@mixin getColorsAlex($variant){
+  @each $i in $color-list {
+    $alt-color: nth($i, 2);
+    &.#{nth($i, 1)} {
+      @if($variant == 'outlined') {
+        color: $alt-color;
+        border: 1px solid $alt-color;
+        &:hover {
+          border-color: black;
+          color: black;
+        }
+      } @else if ($variant == 'contained') {
+        background-color: $alt-color;
+        color: white;
+      }
+    }
+  }
+}
+
+.fts-btn{
+  @extend #generalStyles;
+
+  &-outlined{
+    @include getColorsAlex('outlined');
+  }
+  &-contained {
+    @include getColorsAlex('contained');
+  }
+}

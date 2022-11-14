@@ -1,55 +1,79 @@
 import React, {useEffect} from 'react';
+import GalleryFetchDataWrapper from '../Containers/GalleryFetchDataWrapper';
 import {getAccountInfo} from '../Components/Profile/account-actions';
+import {useHistory, useLocation} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
-import {usePrevious} from '../hooks/usePrevious';
+import {galleryActions} from '../Store/gallerySlice';
 import {authActions} from '../Store/authSlice';
-import {useHistory} from 'react-router-dom';
+import {usePrevious} from '../hooks/usePrevious';
+import {isEmpty} from 'lodash';
+
+const GALLERY_DATA_NEEDED_ROUTES = [
+    '/drawings',
+    '/shop',
+    '/profile'
+];
 
 export const AuthWrapper = (props) => {
-    const {children} = props;
-    const {userInfo, idToken, signInLoading, signInSuccess} = useSelector(
+    const {Component} = props;
+    const {userInfo, idToken, signInSuccess, isAdmin} = useSelector(
         (state) => state.auth,
     );
-    const prevUser = usePrevious(userInfo);
-    const prevSignInLoading = usePrevious(signInLoading);
-    const prevSignInSuccess = usePrevious(signInSuccess);
+    const location = useLocation();
     const history = useHistory();
     const dispatch = useDispatch();
 
+    const prevSignInSuccess = usePrevious(signInSuccess);
+
+    //TODO: USE SUCCESS AND LOADING STATES
     useEffect(() => {
         // in login page if user token exists in local storage, do auth request
-        // console.log('loggedIn');
-        if (!userInfo) {
+        if (idToken && isEmpty(userInfo)) {
             dispatch(getAccountInfo({
                 idToken: idToken,
             }));
         }
-    }, [dispatch, history, userInfo]);
+    }, [userInfo, dispatch]);
 
     useEffect(() => {
-        if(!prevSignInLoading && !signInSuccess) {
-            // console.log('router to profile');
-            history.replace("/profile");
+        if(!isEmpty(userInfo) && !prevSignInSuccess && signInSuccess) {
+            history.replace("/drawings");
+            dispatch(getAccountInfo({
+                idToken: idToken,
+            }));
         }
-    }, [dispatch, history, userInfo, signInLoading, signInSuccess, prevSignInLoading, prevSignInSuccess]);
+    }, [dispatch, userInfo, history]);
 
     useEffect(() => {
-        if (userInfo) {
+        if(isEmpty(userInfo) && !idToken) {
+            history.replace("/sign-in");
+        }
+    }, [userInfo, history]);
+
+    useEffect(() => {
+        if (!isEmpty(userInfo)) {
             setTimeout(
                 () => {
                     dispatch(authActions.logout());
-                    history.replace('/gallery');
+                    dispatch(galleryActions.resetUserFavoriteList());
+                    history.replace('/sign-in');
                 },
                 // log out after some seconds
                 10 * 60000
             );
         }
-    }, [userInfo, dispatch, history]);
+    }, [dispatch, history, userInfo]);
 
-    // console.log(userInfo);
+    const renderWrapper = () => {
+        if(GALLERY_DATA_NEEDED_ROUTES.includes(location.pathname)) {
+            return <><GalleryFetchDataWrapper Component={Component} /></>
+        } else {
+            return <><Component /></>
+        }
+    }
     return (
         <>
-            {children}
+            {renderWrapper()}
         </>
     );
 };

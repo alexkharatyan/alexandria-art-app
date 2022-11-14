@@ -1,14 +1,11 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import AuthForm from './AuthForm';
 import { useSelector} from 'react-redux';
 
 const SignUp = () => {
-    const {signInSuccess, signInLoading, signInError, userInfo, idToken} = useSelector(
+    const {signInSuccess, signInLoading, signInError} = useSelector(
         (state) => state.auth,
     );
-
-    // console.log('idToken', idToken);
-    // console.log('userInfo', userInfo);
 
     return (
         <section className='px-container text-center'>

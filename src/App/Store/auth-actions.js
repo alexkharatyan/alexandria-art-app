@@ -1,6 +1,8 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import toast from 'react-hot-toast';
 
+const ADMIN_LOCAL_ID = '9Z3ZMwqQ7hRhkHWx5rLOwb8gOET2';
+
 export const signupUser = createAsyncThunk(
     "user/signupUser",
     async ({ email, password, returnSecureToken }, thunkAPI) => {
@@ -62,8 +64,13 @@ export const signInUser = createAsyncThunk(
             // console.log("data", data);
             if (response.status === 200) {
                 localStorage.setItem("idToken", data.idToken);
-                toast.success('Successfully signed in');
-                return { ...data, displayName: displayName, email: email };
+
+                // {TODO: FORWARD SUCCESS TOASTER INTO THE COMPONENT}
+                toast.success('Successfully signed in!');
+
+                const isAdmin = data.localId === ADMIN_LOCAL_ID;
+
+                return { ...data, displayName: displayName, email: email, isAdmin: isAdmin };
             } else {
                 toast.error(data.error.message);
                 return thunkAPI.rejectWithValue(data);
@@ -130,7 +137,8 @@ export const getUserInfo = createAsyncThunk(
             let data = await response.json();
             // console.log("data", data);
             if (response.status === 200) {
-                return { ...data, photoUrl: data.photoUrl, displayName: data.displayName };
+                const isAdmin = data.localId === ADMIN_LOCAL_ID;
+                return { ...data, photoUrl: data.photoUrl, displayName: data.displayName, isAdmin: isAdmin };
             } else {
                 toast.error(data.error.message);
                 return thunkAPI.rejectWithValue(data);

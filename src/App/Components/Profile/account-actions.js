@@ -21,7 +21,6 @@ export const getAccountInfo = createAsyncThunk(
               }
           );
           let data = await response.json();
-          // console.log("data", data);
           if (response.status === 200) {
               return { ...data, photoUrl: data.photoUrl, displayName: data.displayName };
           } else {

@@ -1,39 +1,52 @@
 import React, {useEffect, useState} from 'react';
 // import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
-import {deleteGalleryItem, editGalleryItem, fetchGalleryList, updateGalleryFavoritesList} from '../../Store/gallery-actions';
+import {
+    deleteGalleryItem,
+    editGalleryItem,
+    fetchGalleryList, getUserFavoritesData, addUserFavoritesData, deleteUserFavoritesData
+} from '../../Store/gallery-actions';
 import {DeleteGalleryItemModal} from '../Drawings/DeleteGalleryItemModal/DeleteGalleryItemModal';
 import UploadGalleryItemForm from '../Drawings/UploadGalleryItemForm/UploadGalleryItemForm';
 import {AppModal} from '../../Store/shared/AppModal/AppModal';
 import {DELETE, EDIT, FAVORITE} from '../Drawings/constants';
-import {getAccountInfo} from '../Profile/account-actions';
 import {useDispatch, useSelector} from 'react-redux';
 import {usePrevious} from '../../hooks/usePrevious';
 import GalleryList from './GalleryList/GalleryList';
 import toast from 'react-hot-toast';
+import {isEmpty} from 'lodash';
 import './Drawings.scss';
-import {useHistory} from 'react-router-dom';
 
 const Drawings = (props) => {
     const dispatch = useDispatch();
-    const {galleryItems, loading, editedSuccess, deletedSuccess} = useSelector(state => state.gallery);
-    const {signInLoading, signInSuccess, signInError, userInfo, idToken} = useSelector(
+    const {
+        galleryItems,
+        galleryListLoading,
+        galleryListSuccess,
+        editedSuccess,
+        deletedSuccess,
+        userFavoritesList,
+        getUserFavoritesLoading,
+        getUserFavoritesSuccess,
+        addUserFavoritesLoading,
+        addUserFavoritesSuccess,
+        deleteUserFavoritesLoading,
+        deleteUserFavoritesSuccess
+    } = useSelector(state => state.gallery);
+    const {userInfo} = useSelector(
         (state) => state.auth,
     );
-    const {favoriteSuccess} = useSelector(state => state.cart);
+
     const [isEditModalOpen, setEditModalOpenState] = useState(false);
     const [isDeleteModalOpen, setDeleteModalOpenState] = useState(false);
-    const [itemName, setItemName] = useState('');
-    const prevUser = usePrevious(userInfo);
-    const prevSignInLoading = usePrevious(signInLoading);
-    const prevSignInSuccess = usePrevious(signInSuccess);
-    const history = useHistory();
     const [selectedCard, setSelectedCard] = useState({values: null, type: ''});
 
-    const prevFavoriteSuccess = usePrevious(favoriteSuccess);
+    const prevAddUserFavoritesLoading = usePrevious(addUserFavoritesLoading);
+    const prevGetUserFavoritesLoading = usePrevious(getUserFavoritesLoading);
     const prevDeletedSuccess = usePrevious(deletedSuccess);
     const prevEditedSuccess = usePrevious(editedSuccess);
-
     const prevSelectedCard = usePrevious(selectedCard);
+    const prevGalleryLisLoading = usePrevious(galleryListLoading);
+    const prevDeleteUserFavoritesLoading = usePrevious(deleteUserFavoritesLoading);
 
     useEffect(() => {
         if(!prevSelectedCard?.values && selectedCard?.values && selectedCard?.type === EDIT) {
@@ -48,11 +61,19 @@ const Drawings = (props) => {
      }, [selectedCard, prevSelectedCard]);
 
     useEffect(() => {
-        if(galleryItems.length === 0 || (!prevFavoriteSuccess && favoriteSuccess) ) {
-            dispatch(fetchGalleryList());
+        if(galleryItems.length === 0 && !prevGalleryLisLoading && !galleryListLoading) {
             setSelectedCard({values: null, type: ''});
         }
-    }, [dispatch, galleryItems, favoriteSuccess, prevFavoriteSuccess]);
+    });
+
+    useEffect(() => {
+        if(!isEmpty(userInfo) && !getUserFavoritesLoading && !prevGetUserFavoritesLoading && !getUserFavoritesSuccess) {
+            // debugger;
+            dispatch(getUserFavoritesData({
+                userId: userInfo.localId
+            }));
+        }
+    }, [userInfo, getUserFavoritesLoading, prevGetUserFavoritesLoading]);
 
     useEffect(() => {
         if((!prevSelectedCard?.values && selectedCard?.values && selectedCard?.type === FAVORITE)) {
@@ -60,13 +81,14 @@ const Drawings = (props) => {
         }
     }, [selectedCard, prevSelectedCard]);
 
+    // {TODO: ADD LOADING}
     useEffect(() => {
         if (!prevEditedSuccess && editedSuccess) {
             toast.success('Successfully edited!');
             dispatch(fetchGalleryList());
             closeModalHandler();
         }
-    }, [editedSuccess, prevEditedSuccess]);
+    }, [dispatch, editedSuccess, prevEditedSuccess]);
 
     useEffect(() => {
         if (!prevDeletedSuccess && deletedSuccess) {
@@ -74,22 +96,26 @@ const Drawings = (props) => {
             dispatch(fetchGalleryList());
             closeDeleteModalHandler();
         }
-    }, [deletedSuccess, prevDeletedSuccess]);
+    }, [dispatch, deletedSuccess, prevDeletedSuccess]);
 
-    // useEffect(() => {
-    //     if(!prevSignInSuccess && signInSuccess) {
-    //
-    //     }
-    // }, [dispatch, history, userInfo, signInLoading, signInSuccess, prevSignInLoading, prevSignInSuccess]);
+    useEffect(() => {
+        if(prevDeleteUserFavoritesLoading && !deleteUserFavoritesLoading && deleteUserFavoritesSuccess) {
+            // debugger;
+            dispatch(getUserFavoritesData({
+                userId: userInfo.localId
+            }));
+        }
+    });
 
-    // useEffect(() => {
-    //     if (!userInfo) {
-    //         dispatch(getAccountInfo({
-    //             idToken: idToken,
-    //         }));
-    //     }
-    // }, [dispatch, userInfo, prevSignInLoading, signInSuccess, history]);
-    // console.log('-====user', userInfo, idToken);
+    useEffect(() => {
+        if((prevAddUserFavoritesLoading && !addUserFavoritesLoading && addUserFavoritesSuccess)) {
+            // debugger;
+            dispatch(getUserFavoritesData({
+                userId: userInfo.localId
+            }));
+        }
+    }, [dispatch, prevAddUserFavoritesLoading, addUserFavoritesLoading, addUserFavoritesSuccess]);
+
 
     const editItemHandler = (formValues) => {
         dispatch(editGalleryItem({
@@ -105,7 +131,6 @@ const Drawings = (props) => {
 
     const removeFavoriteItem = () => {
         dispatch(deleteGalleryItem({key: selectedCard.values.key}));
-        setItemName(selectedCard.values.name);
     };
 
     const closeModalHandler = () => {
@@ -119,23 +144,41 @@ const Drawings = (props) => {
     };
 
     const favoriteItemHandler = (item) => {
-        // console.log('fav item=====', item);
-        dispatch(updateGalleryFavoritesList({
-            key: item.key,
-            isFavorite: !item.isFavorite
-        }));
+        // debugger;
+        if(item.isFavoriteItem) {
+            dispatch(deleteUserFavoritesData({
+                key: item.key,
+                userId: userInfo?.localId,
+            }));
+        } else {
+            dispatch(addUserFavoritesData({
+                key: item.key,
+                userId: userInfo?.localId,
+                isFavorite: !item.isFavorite,
+                name: item.name,
+                image: item.image,
+                price: item.price,
+                category: item.category,
+                description: item.description
+            }));
+        }
+        setSelectedCard({values: null, type: ''});
     };
+
+    const listLoading = isEmpty(userInfo) ? galleryListLoading : galleryListLoading;
+    const hasAllGalleryData = isEmpty(userInfo) ? galleryListSuccess : (getUserFavoritesSuccess);
 
     return (
         <section className="px-container text-center">
             <h1 className="text-center mb-40 text-colored">Gallery</h1>
             <div className="px-row">
                <GalleryList
-                    loading={loading}
+                    loading={listLoading}
                     drawingData={galleryItems}
                     setSelectedCard={setSelectedCard}
                     selectedCard={selectedCard}
-                    // favoriteItemHandler={favoriteItemHandler}
+                    favoriteItems={userFavoritesList}
+                    hasAllGalleryData={hasAllGalleryData}
                 />
             </div>
             <AppModal
