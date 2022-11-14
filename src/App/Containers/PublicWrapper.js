@@ -23,7 +23,6 @@ export const PublicWrapper = (props) => {
             setTimeout(
                 () => {
                     dispatch(authActions.logout());
-                    dispatch(galleryActions.resetUserFavoriteList());
                     history.replace('/sign-in');
                 },
                 // log out after some seconds

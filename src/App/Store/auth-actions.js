@@ -119,7 +119,7 @@ export const resetPassword = createAsyncThunk(
 
 export const getUserInfo = createAsyncThunk(
     'user/getUserInfo',
-    async ({ idToken, photoUrl, displayName }, thunkAPI) => {
+    async ({ idToken, photoUrl }, thunkAPI) => {
         try{
             const response = await fetch(
                 "https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyC8MgaNDTIsyoaELRhpLs2XvY9dQkVQ1lA",
@@ -138,7 +138,7 @@ export const getUserInfo = createAsyncThunk(
             // console.log("data", data);
             if (response.status === 200) {
                 const isAdmin = data.localId === ADMIN_LOCAL_ID;
-                return { ...data, photoUrl: data.photoUrl, displayName: data.displayName, isAdmin: isAdmin };
+                return { ...data, photoUrl: data.photoUrl, isAdmin: isAdmin };
             } else {
                 toast.error(data.error.message);
                 return thunkAPI.rejectWithValue(data);

@@ -5,6 +5,7 @@ import {getUserFavoritesData, deleteUserFavoritesData} from '../../Store/gallery
 import {useDispatch, useSelector} from 'react-redux';
 import {usePrevious} from '../../hooks/usePrevious';
 import './Shop.scss';
+import {isEmpty} from 'lodash';
 
 const Shop = (props) => {
     const dispatch = useDispatch();
@@ -29,12 +30,11 @@ const Shop = (props) => {
             userId: userInfo?.localId
         }));
     };
-
     return (
         <section className="px-container shop text-center">
             <h1 className="text-center text-colored mb-40">Favorites</h1>
             <ul className="shop__list">
-                {!addUserFavoritesLoading ? (
+                {(!addUserFavoritesLoading && !isEmpty(userFavoritesList)) ? (
                     userFavoritesList?.map(item => (
                         <li>
                             <DrawingItem
@@ -47,7 +47,7 @@ const Shop = (props) => {
                             />
                         </li>
                     ))
-                ) : !addUserFavoritesLoading && !userFavoritesList ? (
+                ) : !addUserFavoritesLoading && isEmpty(userFavoritesList) ? (
                     <div>
                         <h2 className="text-center">No favorite items</h2>
                     </div>

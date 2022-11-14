@@ -3,7 +3,6 @@ import GalleryFetchDataWrapper from '../Containers/GalleryFetchDataWrapper';
 import {getAccountInfo} from '../Components/Profile/account-actions';
 import {useHistory, useLocation} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
-import {galleryActions} from '../Store/gallerySlice';
 import {authActions} from '../Store/authSlice';
 import {usePrevious} from '../hooks/usePrevious';
 import {isEmpty} from 'lodash';
@@ -55,7 +54,6 @@ export const AuthWrapper = (props) => {
             setTimeout(
                 () => {
                     dispatch(authActions.logout());
-                    dispatch(galleryActions.resetUserFavoriteList());
                     history.replace('/sign-in');
                 },
                 // log out after some seconds

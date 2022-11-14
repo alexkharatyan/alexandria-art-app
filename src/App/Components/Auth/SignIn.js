@@ -7,9 +7,6 @@ const SignIn = () => {
         (state) => state.auth,
     );
 
-    // console.log('idToken', idToken);
-    // console.log('userInfo', userInfo);
-
     return (
         <section className="px-container text-center">
             <h1 className="text-center text-colored mb-40">Sign In</h1>
