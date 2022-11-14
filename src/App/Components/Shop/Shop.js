@@ -1,40 +1,32 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {SkeletonLoading} from '../../Store/shared/SkeletonLoading/SkeletonLoading';
 import DrawingItem from '../Drawings/DrawingItem/DrawingItem';
-import {fetchGalleryList, updateGalleryFavoritesList} from '../../Store/gallery-actions';
-import {favoritesList} from '../../shared/selectors';
+import {getUserFavoritesData, deleteUserFavoritesData} from '../../Store/gallery-actions';
 import {useDispatch, useSelector} from 'react-redux';
 import {usePrevious} from '../../hooks/usePrevious';
-import {FAVORITE} from '../Drawings/constants';
 import './Shop.scss';
 
 const Shop = (props) => {
     const dispatch = useDispatch();
-    const {selectedItems} = useSelector(state => state.cart);
-    const {loading, success} = useSelector(state => state.gallery);
-    const favoriteItems = useSelector(favoritesList);
-    const prevLoading = usePrevious(loading);
-    const [selectedCard, setSelectedCard] = useState({values: null, type: ''});
-    const prevSelectedCard = usePrevious(selectedCard);
+    const {
+        addUserFavoritesLoading,
+        userFavoritesList,
+        deleteUserFavoritesLoading,
+        deleteUserFavoritesSuccess
+    } = useSelector(state => state.gallery);
+    const {userInfo} = useSelector(state => state.auth);
+    const prevDeleteUserFavoritesLoading = usePrevious(deleteUserFavoritesLoading);
 
     useEffect(() => {
-        if((!prevSelectedCard?.values && selectedCard?.values && selectedCard?.type === FAVORITE)) {
-            favoriteItemHandler(selectedCard?.values);
+        if(prevDeleteUserFavoritesLoading && !deleteUserFavoritesLoading && deleteUserFavoritesSuccess) {
+            dispatch(getUserFavoritesData({userId: userInfo?.localId}));
         }
-    }, [selectedCard, prevSelectedCard]);
+    });
 
-    useEffect(() => {
-        if (!prevLoading && !loading) {
-            dispatch(fetchGalleryList());
-            setSelectedCard({values: null, type: ''});
-        }
-    }, [selectedItems, loading, success]);
-
-    const favoriteItemHandler = (item) => {
-        // console.log('fav item=====', item);
-        dispatch(updateGalleryFavoritesList({
+    const deleteFavoriteItemHandler = (item) => {
+        dispatch(deleteUserFavoritesData({
             key: item.key,
-            isFavorite: !item.isFavorite
+            userId: userInfo?.localId
         }));
     };
 
@@ -42,12 +34,12 @@ const Shop = (props) => {
         <section className="px-container shop text-center">
             <h1 className="text-center text-colored mb-40">Favorites</h1>
             <ul className="shop__list">
-                {!loading ? (
-                    favoriteItems.map(item => (
+                {!addUserFavoritesLoading ? (
+                    userFavoritesList?.map(item => (
                         <li>
                             <DrawingItem
-                                setSelectedCard={setSelectedCard}
-                                loading={loading}
+                                deleteFavoriteItemHandler={deleteFavoriteItemHandler}
+                                loading={addUserFavoritesLoading}
                                 className="px-col-1"
                                 shopView={true}
                                 key={item.id}
@@ -55,7 +47,7 @@ const Shop = (props) => {
                             />
                         </li>
                     ))
-                ) : !loading && !favoriteItems ? (
+                ) : !addUserFavoritesLoading && !userFavoritesList ? (
                     <div>
                         <h2 className="text-center">No favorite items</h2>
                     </div>

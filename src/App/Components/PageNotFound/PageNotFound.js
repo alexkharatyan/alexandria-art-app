@@ -8,9 +8,10 @@ const PageNotFound = () => {
 
     useEffect(() => {
         setTimeout(() => {
-           history.replace('/');
+           history.replace('/drawings');
        }, 2000);
     });
+
     return (
         <section className='px-container not-found'>
             <img width={300} src={notFoundImg} alt="Page Not Found"/>

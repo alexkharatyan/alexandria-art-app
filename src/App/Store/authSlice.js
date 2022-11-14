@@ -8,22 +8,19 @@ const idToken = localStorage.getItem('idToken')
     : null
 
 const initialAuthState = {
-    isAuthenticated: false,
     idToken,
+    isAdmin: false,
     userInfo: null,
-    isLoggedIn: false,
-    loading: false,
-    error: false,
-    profilePicture: '',
-    photoUrl: '',
     userSuccess: false,
     userLoading: false,
     userError: null,
     signUpSuccess: false,
+    signUpLoading: false,
+    signUpError: false,
     signInLoading: false,
-    updateAccountError: '',
-    updateAccountSuccess: false,
-    updateAccountLoading: false,
+    getAccountInfoError: '',
+    getAccountInfoSuccess: false,
+    getAccountInfoLoading: false,
     updateError: null,
     resetPassSuccess: false,
     resetPassLoading: false,
@@ -74,6 +71,7 @@ const authSlice = createSlice({
         //signUpUser
         [signupUser.pending]: (state) => {
             state.signUpLoading = true;
+            state.signInSuccess = false;
             state.signUpError = null;
         },
         [signupUser.fulfilled]: (state, { payload }) => {
@@ -90,19 +88,23 @@ const authSlice = createSlice({
 
         //signInUser
         [signInUser.pending]: (state) => {
+            state.signInSuccess = false;
             state.signInLoading = true;
             state.signInError = null;
+            state.isAdmin = false;
         },
         [signInUser.fulfilled]: (state, { payload }) => {
             state.signInLoading = false;
             state.signInSuccess = true; // successful
             state.userInfo = payload;
-            state.idToken = payload.idToken
+            state.idToken = payload.idToken;
+            state.isAdmin = payload.isAdmin;
         },
         [signInUser.rejected]: (state, { payload }) => {
             state.signInLoading = false;
             state.signInSuccess = false;
             state.signInError = payload;
+            state.isAdmin = false;
         },
 
         //resetPassword
@@ -140,18 +142,19 @@ const authSlice = createSlice({
 
         //account info update
         [getAccountInfo.pending]: (state) => {
-            state.updateAccountLoading = true;
-            state.updateAccountError = null;
+            state.getAccountInfoSuccess = false;
+            state.getAccountInfoLoading = true;
+            state.getAccountInfoError = null;
         },
         [getAccountInfo.fulfilled]: (state, { payload }) => {
-            state.updateAccountLoading = false;
-            state.updateAccountSuccess = true;
+            state.getAccountInfoLoading = false;
+            state.getAccountInfoSuccess = true;
             state.userInfo = payload;
         },
         [getAccountInfo.rejected]: (state, { payload }) => {
-            state.updateAccountSuccess = false;
-            state.updateAccountLoading = false;
-            state.updateAccountError = payload;
+            state.getAccountInfoSuccess = false;
+            state.getAccountInfoLoading = false;
+            state.getAccountInfoError = payload;
         },
     },
 });

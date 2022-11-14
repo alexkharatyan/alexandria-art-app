@@ -111,6 +111,7 @@ const Profile = (props) => {
         return (
             <AppModal
                 title="Edit Profile"
+                open={toggleModal}
                 closeHandler={setToggleModal}
             >
                 <form onSubmit={editAccountHandler}>
@@ -168,6 +169,7 @@ const Profile = (props) => {
     const renderItemsReorderingModal = () => {
         return (
             <AppModal
+                open={showItemReorderingModal}
                 title="Change password"
                 closeHandler={setShowChangePassModal}>
                 {/*<ReorderGalleryList*/}
@@ -180,6 +182,7 @@ const Profile = (props) => {
     const renderChangePasswordAppModal = () => {
         return (
             <AppModal
+                open={showChangePassModal}
                 title="Change password"
                 closeHandler={setShowChangePassModal}>
                 <div>
@@ -224,7 +227,7 @@ const Profile = (props) => {
                             </div>
                             <button
                                 className="px-button-link edit-profile"
-                                onClick={toggleAppModal}
+                                onClick={() => toggleAppModal()}
                             >
                                 <i className="fa-solid fa-pencil"/>
                             </button>
@@ -240,15 +243,15 @@ const Profile = (props) => {
                                 <span>Change Password</span>
                             </button>
                         </li>
-                        {/*<li>*/}
-                        {/*    <button*/}
-                        {/*        className="px-button-link"*/}
-                        {/*        onClick={toggleItemUploadingModal}*/}
-                        {/*    >*/}
-                        {/*        <i className="fa-solid fa-pen-to-square"/>*/}
-                        {/*        <span>Add Gallery Item</span>*/}
-                        {/*    </button>*/}
-                        {/*</li>*/}
+                        <li>
+                            <button
+                                className="px-button-link"
+                                onClick={toggleItemUploadingModal}
+                            >
+                                <i className="fa-solid fa-pen-to-square"/>
+                                <span>Add Gallery Item</span>
+                            </button>
+                        </li>
                         {/*<li>*/}
                         {/*    <button*/}
                         {/*        className="px-button-link"*/}
@@ -259,7 +262,7 @@ const Profile = (props) => {
                         {/*    </button>*/}
                         {/*</li>*/}
                     </ul>
-                ) : <SkeletonLoading type={'PROFILE'} />}
+                ) : <SkeletonLoading type='PROFILE' />}
             </aside>
             <AppModal
                 open={isAddModalOpen}
@@ -272,9 +275,9 @@ const Profile = (props) => {
                 />
             </AppModal>
             {/*{showItemUploadingModal && renderItemUploadingModal()}*/}
-            {toggleModal && renderEdtAccountModal()}
-            {showChangePassModal && renderChangePasswordAppModal()}
-            {showItemReorderingModal && renderItemsReorderingModal()}
+            {renderEdtAccountModal()}
+            {renderChangePasswordAppModal()}
+            {renderItemsReorderingModal()}
         </section>
     );
 };

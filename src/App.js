@@ -31,47 +31,12 @@ const App = () => {
                     <Router>
                         <Header/>
                         <Switch>
-                            {/*<Route exact path="/">*/}
-                            {/*    <HomePage/>*/}
-                            {/*</Route>*/}
-                            {/*<Route exact path="/about">*/}
-                            {/*    <About/>*/}
-                            {/*</Route>*/}
-                            <Route exact path="/drawings">
-                                <Drawings/>
-                            </Route>
-                            {/*<Route exact path="/drawing-inner">*/}
-                            {/*    <DrawingItemInner/>*/}
-                            {/*</Route>*/}
-                            {/*<Route exact path="/inspired-by">*/}
-                            {/*    <InspiredBy/>*/}
-                            {/*</Route>*/}
-                            {!idToken && (
-                                <>
-                                    <Route exact path="/sign-in">
-                                        <SignIn />
-                                    </Route>
-                                    <Route exact path="/sign-up">
-                                        <SignUp />
-                                    </Route>
-                                    <Route exact path="/profile">
-                                        <SignIn />
-                                    </Route>
-                                </>
-                            )}
-                            {/*{!!idToken && (*/}
-                            <AuthWrapper>
-                                <Route exact path="/profile">
-                                    <Profile/>
-                                </Route>
-                                <Route exact path="/shop">
-                                    <Shop/>
-                                </Route>
-                            </AuthWrapper>
-                            {/*)}*/}
-                            <Route path="*">
-                                <PageNotFound />
-                            </Route>
+                            <Route exact path="/drawings" render={props => <AuthWrapper {...props} Component={Drawings} />} />
+                            <Route exact path="/sign-in" render={props => <AuthWrapper {...props} Component={SignIn} />} />
+                            <Route exact path="/sign-up" render={props => <AuthWrapper {...props} Component={SignUp} />} />
+                            <Route exact path="/profile" render={props => <AuthWrapper {...props} Component={Profile} />}/>
+                            <Route exact path="/shop" render={props => <AuthWrapper {...props} Component={Shop} />}/>
+                            <Route path="*" render={props => <AuthWrapper {...props} Component={PageNotFound} />}/>
                         </Switch>
                     </Router>
                 </Suspense>

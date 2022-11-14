@@ -1,20 +1,24 @@
 import React from 'react';
-import {SkeletonLoading} from '../../../Store/shared/SkeletonLoading/SkeletonLoading';
 import {useSelector} from 'react-redux';
 import ReactTooltip from 'react-tooltip';
 import {DELETE, EDIT, FAVORITE} from '../constants';
-import cx from 'classnames';
+import {isEmpty} from 'lodash';
 import './DrawingItem.scss';
+import cx from 'classnames';
 
 const DrawingItem = (props) => {
     const {
         item,
         loading,
         className = "",
+        favoriteItems,
         shopView = false,
-        setSelectedCard
+        setSelectedCard,
+        deleteFavoriteItemHandler
     } = props;
-    const {idToken} = useSelector((state) => state.auth);
+    const {userInfo, isAdmin} = useSelector((state) => state.auth);
+
+    const isFavoriteItem = favoriteItems?.find(favItem => favItem?.key === item?.key) ? true : false;
 
     return (
         <>
@@ -25,19 +29,26 @@ const DrawingItem = (props) => {
                     })}>
                     <div className="gallery-item__image">
                         <div className="actions">
-                            {!shopView && idToken ? (
+                            {!shopView && !isEmpty(userInfo) ? (
                                 <>
-                                    {/*<i onClick={() => setSelectedCard({values: {...item}, type: DELETE})}*/}
-                                    {/*    data-tip="Remove"*/}
-                                    {/*   className="fa-solid fa-trash"/>*/}
-                                    {/*<i onClick={() => setSelectedCard({values: {...item}, type: EDIT})}*/}
-                                    {/*    data-tip="Edit"*/}
-                                    {/*   className="fa-solid fa-pencil"/>*/}
-                                    <i onClick={() => setSelectedCard({values: {...item}, type: FAVORITE})}
-                                       data-tip={!item.isFavorite ? 'Like' : 'Unlike'}
+                                    {
+                                        isAdmin && (
+                                            <>
+                                                <i onClick={() => setSelectedCard({values: {...item}, type: DELETE})}
+                                                   data-tip="Remove"
+                                                   className="fa-solid fa-trash"/>
+                                                <i onClick={() => setSelectedCard({values: {...item}, type: EDIT})}
+                                                   data-tip="Edit"
+                                                   className="fa-solid fa-pencil"/>
+                                            </>
+                                        )
+                                    }
+
+                                    <i onClick={() => setSelectedCard({values: {...item, isFavoriteItem}, type: FAVORITE})}
+                                       data-tip={!isFavoriteItem ? 'Like' : 'Unlike'}
                                        className={cx('fa-regular fa-heart',
                                            {
-                                               'fa-solid': item.isFavorite
+                                               'fa-solid': isFavoriteItem
                                            })}
                                     />
                                     <ReactTooltip/>
@@ -57,10 +68,11 @@ const DrawingItem = (props) => {
                         <div className="gallery-item__caption__info">
                             {shopView ? (
                                 <>
-                                    <div className="pos-actions">
+                                    <div className="pos-actions alex">
                                         {/*<i className="fa-solid fa-plus" />*/}
                                         {/*<i className="fa-solid fa-minus"/>*/}
-                                        <i onClick={() => setSelectedCard({values: {...item}, type: FAVORITE})}
+                                        <i
+                                            onClick={() => deleteFavoriteItemHandler(item)}
                                            data-tip="Unselect"
                                            className="fa-solid fa-heart"/>
                                         <ReactTooltip/>
